@@ -7,6 +7,5 @@ import catchAsync from "#helpers/catchAsync.helper.js";
 const authRouter = Router();
 
 authRouter.post('/login', validate(authSchema.loginSchema), AuthController.login);
-authRouter.post('/register', validate(authSchema.registerShcema), catchAsync(AuthController.register));
 
 export default authRouter;

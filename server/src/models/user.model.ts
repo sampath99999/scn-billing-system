@@ -1,67 +1,60 @@
-import { Document, Model, Schema, model } from "mongoose";
+import { UserTypes } from '#types/UserTypes.js';
+import { Document, Model, ObjectId, Schema, model } from 'mongoose';
 
-export interface IUser {
-    first_name: string;
-    last_name: string;
-    email: string;
+export interface UserInterface {
+    name: string;
     username: string;
     password: string;
-    email_verified: boolean;
-    email_verification_token: string | null;
-    email_verification_token_expires: Date | null;
-    createdAt: Date;
-    updatedAt: Date;
+    phone_no: string;
+    user_type: ObjectId;
+    company_id: ObjectId;
+    is_active: boolean
 }
 
-export interface IUserDocument extends IUser, Document {}
-export interface IUserModel extends Model<IUserDocument> {}
+export interface UserDocumentInterface extends UserInterface, Document {}
+export interface UserModelInterface extends Model<UserDocumentInterface> {}
 
-const UserSchema: Schema<IUserDocument> = new Schema({
-    first_name: {
-        type: String,
-        required: true,
+const UserSchema: Schema<UserDocumentInterface> = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        username: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        phone_no: {
+            type: String,
+            required: true,
+        },
+        user_type: {
+            type: Number,
+            default: UserTypes.EMPLOYEE,
+            required: true
+        },
+        company_id: {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'companies',
+        },
+        is_active: {
+            type: Boolean,
+            default: false,
+            required: true
+        }
     },
-    last_name: {
-        type: String,
-        required: true,
+    {
+        timestamps: true,
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    email_verified: {
-        type: Boolean,
-        default: false,
-    },
-    email_verification_token: {
-        type: String,
-        unique: true,
-        default: null,
-    },
-    email_verification_token_expires: {
-        type: Date,
-        default: null,
-    }
-}, {
-    timestamps: true
-});
+);
 
-export const User: IUserModel = model<IUserDocument, IUserModel>("User", UserSchema);
-
-export type UserRegister = {
-    first_name: string;
-    last_name: string;
-    email: string;
-    username: string;
-    password: string;
-};
+export const User: UserModelInterface = model<
+    UserDocumentInterface,
+    UserModelInterface
+>('users', UserSchema);
