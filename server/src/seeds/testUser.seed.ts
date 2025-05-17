@@ -7,7 +7,6 @@ import connectDB from '#utils/database.js';
 
 export class TestUserSeeder {
     async seed() {
-        // Check if Company exists
         const companyExists = await Company.findOne({
             name: 'Sampath Cable Network',
         });

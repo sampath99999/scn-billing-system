@@ -16,31 +16,38 @@ export default class AuthService {
                 404,
             );
         }
-        if (await Encrypter.comparePassword(password, user.password)) {
-            return user;
+        if (!(await Encrypter.comparePassword(password, user.password))) {
+            throw new AppError(
+                'Invalid Credentials, Please check Username and Password',
+                404,
+            );
         }
         await this.checkIfCompanyIsActive(user.company_id);
         await this.checkIfUserIsActive(user);
-        throw new AppError(
-            'Invalid Credentials, Please check Username and Password',
-            404,
-        );
+        return user;
     }
 
     static async checkIfUserIsActive(user: UserDocumentInterface) {
-        if(!user.is_active) {
-            throw new AppError("User is Inactive, Please contact your Admin", 400);
+        console.log(user);
+        if (!user.is_active) {
+            throw new AppError(
+                'User is Inactive, Please contact your Admin',
+                400,
+            );
         }
         return true;
     }
 
     static async checkIfCompanyIsActive(network_id: ObjectId) {
         const company = await Company.findById(network_id);
-        if(!company) {
-            throw new AppError("Company detials not found!", 404);
+        if (!company) {
+            throw new AppError('Company detials not found!', 404);
         }
-        if(!company?.is_active) {
-            throw new AppError("Company is in Inactive state, please contant Out Support Number", 400);
+        if (!company?.is_active) {
+            throw new AppError(
+                'Company is in Inactive state, please contant Our Support Number',
+                400,
+            );
         }
     }
 }
