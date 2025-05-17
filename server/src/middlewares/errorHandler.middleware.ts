@@ -6,9 +6,8 @@ export default function errorHandler(
     err: CustomError,
     req: Request,
     res: Response,
-    next: Function,
 ) {
-    const statusCode = err.statusCode || 500;
+    const statusCode = err.statusCode ?? 500;
     const isDevelopment = process.env.NODE_ENV === 'development';
     const isAppError = err instanceof AppError;
 

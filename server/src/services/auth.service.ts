@@ -5,7 +5,7 @@ import { Encrypter } from '#utils/bcrypt.js';
 import { JWT } from '#utils/jwt.js';
 import { ObjectId } from 'mongoose';
 
-export const AuthService = {
+const AuthService = {
     async login(username: string, password: string) {
         const user = await User.findOne({
             username,
@@ -31,15 +31,6 @@ export const AuthService = {
         return { token };
     },
 
-    removePasswordFromObject(user: UserInterface) {
-        const userObj = user.toObject() as Omit<UserInterface, 'password'> & {
-            password: string;
-        };
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...safeUser } = userObj;
-        return safeUser as Omit<UserInterface, 'password'>;
-    },
-
     checkIfUserIsActive(user: UserInterface) {
         if (!user.is_active) {
             throw new AppError(
@@ -63,3 +54,5 @@ export const AuthService = {
         }
     },
 };
+
+export default AuthService;
