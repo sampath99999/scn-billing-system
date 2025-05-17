@@ -6,7 +6,7 @@ export interface UserInterface {
     username: string;
     password: string;
     phone_no: string;
-    user_type: ObjectId;
+    user_type: number;
     company_id: ObjectId;
     is_active: boolean
 }
@@ -28,6 +28,7 @@ const UserSchema: Schema<UserDocumentInterface> = new Schema(
         password: {
             type: String,
             required: true,
+            select: false,
         },
         phone_no: {
             type: String,

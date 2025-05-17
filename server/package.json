@@ -35,9 +35,11 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@types/jsonwebtoken": "^9.0.9",
         "bcrypt-ts": "^7.0.0",
         "dotenv": "^16.5.0",
         "express": "^5.1.0",
+        "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.14.2",
         "nodemailer": "^7.0.3",
         "zod": "^3.24.4"
