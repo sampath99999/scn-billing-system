@@ -35,16 +35,12 @@ export const PackageService = {
 
     async updatePackage(
         packageId: string,
-        packageDetails: {
-            name: string;
-            package_type: string;
-            price_per_month: number;
-            company_id: string;
-        },
+        updatedPackageData: NewPackageData,
+        companyId: string,
     ) {
-        const updatedPackage = await Package.findByIdAndUpdate(
-            packageId,
-            packageDetails,
+        const updatedPackage = await Package.findOneAndUpdate(
+            { _id: packageId, company_id: companyId },
+            updatedPackageData,
             { new: true },
         );
         return updatedPackage;
