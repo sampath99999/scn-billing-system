@@ -1,7 +1,6 @@
-import { Document, model, Model, Schema } from 'mongoose';
-import { boolean } from 'zod';
+import { Document, model, Schema } from 'mongoose';
 
-export interface CompanyInterface {
+export interface CompanyInterface extends Document {
     name: string;
     address: string;
     phone_no: string;
@@ -10,11 +9,7 @@ export interface CompanyInterface {
     is_active: boolean;
 }
 
-export interface CompanyDocumentInterface extends CompanyInterface, Document {}
-export interface CompanyModelInterface
-    extends Model<CompanyDocumentInterface> {}
-
-const CompanySchema: Schema<CompanyDocumentInterface> = new Schema(
+const CompanySchema = new Schema<CompanyInterface>(
     {
         name: {
             type: String,
@@ -38,7 +33,7 @@ const CompanySchema: Schema<CompanyDocumentInterface> = new Schema(
         is_active: {
             type: Boolean,
             default: false,
-            required: true
+            required: true,
         },
     },
     {
@@ -46,7 +41,4 @@ const CompanySchema: Schema<CompanyDocumentInterface> = new Schema(
     },
 );
 
-export const Company: CompanyModelInterface = model<
-    CompanyDocumentInterface,
-    CompanyModelInterface
->('companies', CompanySchema);
+export const Company = model<CompanyInterface>('companies', CompanySchema);

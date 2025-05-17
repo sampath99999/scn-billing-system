@@ -1,18 +1,13 @@
-import MailHelper from '#helpers/mail.helper.js';
 import { Company } from '#models/company.model.js';
-import {
-    User,
-    UserDocumentInterface,
-    UserInterface,
-} from '#models/user.model.js';
+import { User, UserInterface } from '#models/user.model.js';
 import { AppError } from '#utils/appError.js';
 import { Encrypter } from '#utils/bcrypt.js';
 import { JWT } from '#utils/jwt.js';
 import { ObjectId } from 'mongoose';
 
-export default class AuthService {
-    static async login(username: string, password: string) {
-        let user = await User.findOne({
+export const AuthService = {
+    async login(username: string, password: string) {
+        const user = await User.findOne({
             username,
         }).select('+password');
         if (!user) {
@@ -28,21 +23,24 @@ export default class AuthService {
             );
         }
         await this.checkIfCompanyIsActive(user.company_id);
-        await this.checkIfUserIsActive(user);
-        const token = await JWT.generateToken({
+        this.checkIfUserIsActive(user);
+        const token = JWT.generateToken({
             _id: user._id as ObjectId,
             user_type: user.user_type,
-        })
-        return {token};
-    }
+        });
+        return { token };
+    },
 
-    static removePasswordFromObject(user: UserDocumentInterface) {
-        const userObj = user.toObject();
+    removePasswordFromObject(user: UserInterface) {
+        const userObj = user.toObject() as Omit<UserInterface, 'password'> & {
+            password: string;
+        };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...safeUser } = userObj;
-        return safeUser;
-    }
+        return safeUser as Omit<UserInterface, 'password'>;
+    },
 
-    static async checkIfUserIsActive(user: UserDocumentInterface) {
+    checkIfUserIsActive(user: UserInterface) {
         if (!user.is_active) {
             throw new AppError(
                 'User is Inactive, Please contact your Admin',
@@ -50,18 +48,18 @@ export default class AuthService {
             );
         }
         return true;
-    }
+    },
 
-    static async checkIfCompanyIsActive(network_id: ObjectId) {
+    async checkIfCompanyIsActive(network_id: ObjectId) {
         const company = await Company.findById(network_id);
         if (!company) {
-            throw new AppError('Company detials not found!', 404);
+            throw new AppError('Company details not found!', 404);
         }
-        if (!company?.is_active) {
+        if (!company.is_active) {
             throw new AppError(
-                'Company is in Inactive state, please contant Our Support Number',
+                'Company is in Inactive state, please contact Our Support Number',
                 400,
             );
         }
-    }
-}
+    },
+};
