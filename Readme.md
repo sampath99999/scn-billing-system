@@ -29,7 +29,7 @@ SCN is an open-source management system designed specifically for Television Ser
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/scn-cable-billing.git
+git clone https://github.com/sampath99999/scn-cable-billing.git
 
 # Navigate to project directory
 cd scn-cable-billing
