@@ -8,7 +8,7 @@ const DEFAULT_EXPIRES_IN: SignOptions['expiresIn'] = '1d';
 export interface TokenPayload {
     _id: ObjectId;
     user_type: number;
-    company_id?: ObjectId;
+    company_id: ObjectId;
     [key: string]: unknown;
 }
 

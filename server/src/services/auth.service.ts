@@ -27,6 +27,7 @@ const AuthService = {
         const token = JWT.generateToken({
             _id: user._id as ObjectId,
             user_type: user.user_type,
+            company_id: user.company_id,
         });
         return { token };
     },
