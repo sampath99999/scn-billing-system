@@ -1,4 +1,4 @@
-import { AuthService } from '#services/auth.service.js';
+import AuthService from '#services/auth.service.js';
 import { Request, Response } from 'express';
 
 export const AuthController = {
