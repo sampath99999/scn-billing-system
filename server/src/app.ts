@@ -6,7 +6,7 @@ import router from '#routes/v1/routes.js';
 
 dotenv.config();
 
-export default async function createApp() {
+export default function createApp() {
     const app = express();
     const port = process.env.PORT ?? '3000';
 
@@ -19,6 +19,14 @@ export default async function createApp() {
 
     app.use('/api/v1', router);
 
+    // 404 handler for unmatched routes
+    app.use((req, res, next) => {
+        const error = new Error(`Not found - ${req.originalUrl}`);
+        res.status(404);
+        next(error);
+    });
+
+    // Global error handler - must be last
     app.use(errorHandler);
     return app;
 }

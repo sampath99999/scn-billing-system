@@ -1,6 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { AppError } from './appError.js';
 import { ObjectId } from 'mongoose';
+import { Request } from 'express';
 
 const SECRET_KEY: string = process.env.JWT_SECRET ?? 'your_default_secret';
 const DEFAULT_EXPIRES_IN: SignOptions['expiresIn'] = '1d';
@@ -16,6 +17,10 @@ export interface TokenValidationResult {
     valid: boolean;
     decoded?: TokenPayload;
     error?: string;
+}
+export interface RequestWithUserAndBody<T> extends Omit<Request, 'body'> {
+    user: TokenPayload;
+    body: T;
 }
 
 export const JWT = {

@@ -1,3 +1,4 @@
+import { PACKAGE_TYPES } from '#types/Package.js';
 import { Document, model, Schema, Types } from 'mongoose';
 
 export interface PackageInterface extends Document {
@@ -6,11 +7,6 @@ export interface PackageInterface extends Document {
     price_per_month: number;
     company_id: Types.ObjectId;
 }
-export const PACKAGE_TYPES = {
-    ADD_ON: 'add_on',
-    PACKAGE: 'package',
-};
-
 const PackageSchema = new Schema<PackageInterface>(
     {
         name: {

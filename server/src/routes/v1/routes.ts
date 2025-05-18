@@ -1,16 +1,18 @@
-import { Router } from "express";
-import authRouter from "./auth.routes.js";
+import { Router } from 'express';
+import authRouter from './auth.routes.js';
+import PackageRouter from './package.routes.js';
 
 const router = Router();
 
-router.get("/health", (req, res) => {
+router.get('/health', (req, res) => {
     res.status(200).json({
-        status: "ok",
-        message: "Server is running",
+        status: 'ok',
+        message: 'Server is running',
         timestamp: new Date().toISOString(),
     });
 });
 
 router.use('/auth', authRouter);
+router.use('/package', PackageRouter);
 
 export default router;

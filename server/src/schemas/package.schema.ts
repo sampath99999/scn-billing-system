@@ -1,11 +1,11 @@
-import { PACKAGE_TYPES } from '#models/packages.model.js';
+import { PACKAGE_TYPES } from '#types/Package.js';
 import { z } from 'zod';
 
 export const createPackageSchema = z.object({
     name: z
-        .string({ message: 'Name is required' })
-        .min(1, 'Name is required')
-        .max(50, 'Name must be less than 50 characters'),
+        .string({ message: 'Package Name is required' })
+        .min(1, 'Package Name is required')
+        .max(50, 'Package Name must be less than 50 characters'),
     package_type: z
         .string({ message: 'Package type is required' })
         .refine((val) => Object.values(PACKAGE_TYPES).includes(val), {
