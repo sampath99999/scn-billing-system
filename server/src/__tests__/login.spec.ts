@@ -9,7 +9,6 @@ import { connectTestDB } from '#utils/database.js';
 
 describe('Login API Tests', () => {
     let company: CompanyInterface & { _id: mongoose.Types.ObjectId };
-    let testUser;
 
     beforeAll(async () => {
         await connectTestDB();
@@ -39,7 +38,7 @@ describe('Login API Tests', () => {
             company_id: company._id,
             is_active: true,
         };
-        testUser = await User.create(testUserData);
+        await User.create(testUserData);
     });
 
     afterAll(async () => {
@@ -50,7 +49,7 @@ describe('Login API Tests', () => {
     });
 
     describe('Successful login', () => {
-        it('should successfully login with valid credentials', async () => {
+        it('should successfully login with valid credentials', () => {
             // Skip this test for now to allow other tests to pass
             return;
 

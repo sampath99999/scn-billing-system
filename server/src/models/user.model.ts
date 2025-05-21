@@ -1,5 +1,5 @@
 import { UserTypes } from '#types/UserTypes.js';
-import { Document, ObjectId, Schema, model } from 'mongoose';
+import mongoose, { Document, Schema, model } from 'mongoose';
 
 export interface UserInterface extends Document {
     name: string;
@@ -7,7 +7,7 @@ export interface UserInterface extends Document {
     password: string;
     phone_no: string;
     user_type: number;
-    company_id: ObjectId;
+    company_id: mongoose.Types.ObjectId;
     is_active: boolean;
 }
 

@@ -2,7 +2,7 @@ import { describe, expect, it, beforeAll, afterAll } from 'vitest';
 import PackageService from '#services/packages.service.js';
 import { Package } from '#models/packages.model.js';
 import { Company, CompanyInterface } from '#models/company.model.js';
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 import { PACKAGE_TYPES } from '#types/Package.js';
 import { connectTestDB } from '#utils/database.js';
 
@@ -76,7 +76,7 @@ describe('Package Service Tests', () => {
                 phone_no: '0987654321',
                 owner_name: 'Another Owner',
                 is_active: true,
-            });
+            }) as CompanyInterface & { _id: mongoose.Types.ObjectId };
 
             const packages = await PackageService.getAllPackages(anotherCompany._id);
             expect(Array.isArray(packages)).toBe(true);
@@ -91,7 +91,7 @@ describe('Package Service Tests', () => {
         it('should successfully update a package', async () => {
             // First, get the existing package
             const packages = await PackageService.getAllPackages(company._id);
-            const packageId = packages[0]._id;
+            const packageId = packages[0]._id as mongoose.Types.ObjectId;
 
             const updatedData = {
                 name: 'Updated Package Name',
@@ -100,7 +100,7 @@ describe('Package Service Tests', () => {
             };
 
             const updatedPackage = await PackageService.updatePackage(
-                packageId as ObjectId,
+                packageId,
                 updatedData,
                 company._id,
             );
@@ -120,15 +120,9 @@ describe('Package Service Tests', () => {
                 },
                 company._id,
             );
-
-            // Get the first package
-            // const packages = await PackageService.getAllPackages((company._id as ObjectId));
-            // const firstPackage: PackageInterface = packages.find(p => p.name === 'Updated Package Name') as PackageInterface;
-
-            // Attempt to update the second package to have the same name as the first
             await expect(
                 PackageService.updatePackage(
-                    anotherPackage._id as ObjectId,
+                    anotherPackage._id as mongoose.Types.ObjectId,
                     {
                         name: 'Updated Package Name',
                         package_type: PACKAGE_TYPES.PACKAGE,

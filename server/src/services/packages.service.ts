@@ -1,10 +1,10 @@
 import { Package } from '#models/packages.model.js';
 import { NewPackageData } from '#types/Package.js';
 import { AppError } from '#utils/appError.js';
-import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 const PackageService = {
-    createPackage: async (packageData: NewPackageData, companyId: ObjectId) => {
+    createPackage: async (packageData: NewPackageData, companyId: mongoose.Types.ObjectId) => {
         const { name, package_type, price_per_month } = packageData;
         await PackageService.checkPackageExists(name, companyId);
         const newPackage = await Package.create({
@@ -17,7 +17,7 @@ const PackageService = {
         return newPackage;
     },
 
-    checkPackageExists: async (name: string, companyId: ObjectId, exceptId: ObjectId | null = null) => {
+    checkPackageExists: async (name: string, companyId: mongoose.Types.ObjectId, exceptId: mongoose.Types.ObjectId | null = null) => {
         const packageExists = await Package.exists({
             name,
             company_id: companyId,
@@ -31,15 +31,15 @@ const PackageService = {
         }
     },
 
-    getAllPackages: async (companyId: ObjectId) => {
+    getAllPackages: async (companyId: mongoose.Types.ObjectId) => {
         const packages = await Package.find({ company_id: companyId });
         return packages;
     },
 
     updatePackage: async (
-        packageId: ObjectId,
+        packageId: mongoose.Types.ObjectId,
         packageData: NewPackageData,
-        companyId: ObjectId,
+        companyId: mongoose.Types.ObjectId,
     ) => {
         const { name, package_type, price_per_month } = packageData;
         await PackageService.checkPackageExists(name, companyId, packageId);

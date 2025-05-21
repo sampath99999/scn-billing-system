@@ -3,7 +3,7 @@ import PackageService from '#services/packages.service.js';
 import { NewPackageData } from '#types/Package.js';
 import { RequestWithUserAndBody } from '#utils/jwt.js';
 import { Request, Response } from 'express';
-import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 export const PackageController = {
     createPackage: catchAsync(async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ export const PackageController = {
     }),
 
     updatePackage: catchAsync(async (req: Request, res: Response) => {
-        const packageId = (req.params.id as unknown) as ObjectId;
+        const packageId = (req.params.id as unknown) as mongoose.Types.ObjectId;
         const newPackageData = (req as RequestWithUserAndBody<NewPackageData>)
             .body;
         const result = await PackageService.updatePackage(

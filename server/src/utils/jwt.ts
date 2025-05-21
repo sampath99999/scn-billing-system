@@ -1,15 +1,15 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { AppError } from './appError.js';
-import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 import { Request } from 'express';
 
 const SECRET_KEY: string = process.env.JWT_SECRET ?? 'your_default_secret';
 const DEFAULT_EXPIRES_IN: SignOptions['expiresIn'] = '1d';
 
 export interface TokenPayload {
-    _id: ObjectId;
+    _id: mongoose.Types.ObjectId;
     user_type: number;
-    company_id: ObjectId;
+    company_id: mongoose.Types.ObjectId;
     [key: string]: unknown;
 }
 
