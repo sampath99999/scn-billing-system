@@ -17,10 +17,11 @@ const PackageService = {
         return newPackage;
     },
 
-    checkPackageExists: async (name: string, companyId: ObjectId) => {
+    checkPackageExists: async (name: string, companyId: ObjectId, exceptId: ObjectId | null = null) => {
         const packageExists = await Package.exists({
             name,
             company_id: companyId,
+            _id: { $ne: exceptId },
         });
         if (packageExists) {
             throw new AppError(
@@ -41,6 +42,7 @@ const PackageService = {
         companyId: ObjectId,
     ) => {
         const { name, package_type, price_per_month } = packageData;
+        await PackageService.checkPackageExists(name, companyId, packageId);
         const packageExists = await Package.exists({
             _id: packageId,
             company_id: companyId,

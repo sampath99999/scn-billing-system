@@ -14,5 +14,6 @@ export const createPackageSchema = z.object({
     price_per_month: z
         .number({ message: 'Price per month is required' })
         .min(0, 'Price per month must be greater than or equal to 0')
-        .max(10000, 'Price per month must be less than or equal to 10000'),
+        .max(10000, 'Price per month must be less than or equal to 10000')
+        .int('Price per month must be an integer'),
 });

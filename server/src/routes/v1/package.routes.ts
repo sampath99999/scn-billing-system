@@ -17,5 +17,12 @@ PackageRouter.post(
     PackageController.createPackage,
 );
 PackageRouter.get('/', AuthMiddleware, PackageController.getAllPackages);
+PackageRouter.patch(
+    '/:id',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    validate(createPackageSchema),
+    PackageController.updatePackage,
+);
 
 export default PackageRouter;
