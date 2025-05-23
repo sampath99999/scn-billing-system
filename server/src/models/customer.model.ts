@@ -1,4 +1,4 @@
-import { Document, model, ObjectId, Schema } from 'mongoose';
+import mongoose, { Document, model, Schema } from 'mongoose';
 
 export interface CustomerInterface extends Document {
     first_name: string;
@@ -11,7 +11,7 @@ export interface CustomerInterface extends Document {
     latitude?: number;
     longitude?: number;
     old_due: number;
-    company_id: ObjectId;
+    company_id: mongoose.Types.ObjectId;
     is_active: boolean;
 }
 
