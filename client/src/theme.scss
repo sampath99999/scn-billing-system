@@ -1,0 +1,628 @@
+// Custom Bootstrap Theme for SCN Billing System
+// Modern theme with clean design inspired by the dashboard image
+
+// Import Bootstrap functions first (required)
+@import "bootstrap/scss/functions";
+
+// Define custom color palette
+$primary: rgb(116, 44, 223);      // Main purple from the image
+$secondary: #6c757d;              // Standard gray for secondary elements
+$success: #28a745;                // Green for success states
+$info: #17a2b8;                   // Blue for informational content
+$warning: #ffc107;                // Amber for warnings
+$danger: #dc3545;                 // Red for errors and critical actions
+$light: #f8f9fa;                  // Very light gray for backgrounds
+$dark: #343a40;                   // Dark gray for text and headers
+
+// Extended color palette
+$purple-light: lighten($primary, 25%);
+$purple-lighter: lighten($primary, 40%);
+$purple-dark: darken($primary, 10%);
+
+// Gray scale
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+// Typography
+$font-family-sans-serif: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-base: $font-family-sans-serif;
+
+$font-size-base: 0.9rem;
+$font-size-sm: $font-size-base * 0.875;
+$line-height-base: 1.6;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Border radius
+$border-radius: 0.5rem;
+$border-radius-sm: 0.4rem;
+$border-radius-lg: 0.6rem;
+
+// Shadows
+$box-shadow-sm: 0 .125rem .25rem rgba($black, .075);
+$box-shadow: 0 .5rem 1rem rgba($black, .08);
+$box-shadow-lg: 0 1rem 3rem rgba($black, .1);
+
+// Button styles
+$btn-font-weight: $font-weight-medium;
+$btn-padding-y: 0.6rem;
+$btn-padding-x: 1.2rem;
+$btn-border-radius: $border-radius;
+
+// Card styles
+$card-border-width: 0;
+$card-border-radius: $border-radius;
+$card-box-shadow: $box-shadow-sm;
+$card-spacer-y: 1.25rem;
+$card-spacer-x: 1.5rem;
+
+// Input styles
+$input-bg: $white;
+$input-border-color: $gray-300;
+$input-border-radius: $border-radius;
+$input-padding-y: 0.6rem;
+$input-padding-x: 0.75rem;
+$input-focus-border-color: lighten($primary, 25%);
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, .25);
+
+// Import Bootstrap variables and mixins
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Import all Bootstrap components
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/list-group";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/carousel";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/placeholders";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api";
+
+// Custom CSS Variables
+:root {
+  // Primary color variations
+  --bs-primary: #{$primary};
+  --bs-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+  --bs-primary-light: #{$purple-light};
+  --bs-primary-lighter: #{$purple-lighter};
+  --bs-primary-dark: #{$purple-dark};
+
+  // Additional design variables
+  --bs-app-background: #{$white};
+  --bs-card-bg: #{$white};
+  --bs-card-shadow: #{$box-shadow};
+  --bs-sidebar-width: 250px;
+  --bs-sidebar-collapsed-width: 70px;
+  --bs-header-height: 70px;
+  --bs-footer-height: 60px;
+
+  // Gray scale as CSS variables
+  --bs-gray-100: #{$gray-100};
+  --bs-gray-200: #{$gray-200};
+  --bs-gray-300: #{$gray-300};
+  --bs-gray-400: #{$gray-400};
+  --bs-gray-500: #{$gray-500};
+  --bs-gray-600: #{$gray-600};
+  --bs-gray-700: #{$gray-700};
+  --bs-gray-800: #{$gray-800};
+  --bs-gray-900: #{$gray-900};
+}
+
+// Custom Card Styles
+.app-card {
+  background-color: var(--bs-card-bg);
+  border-radius: $border-radius;
+  box-shadow: var(--bs-card-shadow);
+  border: none;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $box-shadow;
+  }
+
+  .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid $gray-200;
+    padding: 1.25rem 1.5rem;
+    font-weight: $font-weight-semibold;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+// Dashboard Stats Card
+.stats-card {
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: var(--bs-card-shadow);
+  border: none;
+
+  .stats-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-right: 1rem;
+    background-color: rgba($primary, 0.1);
+    color: $primary;
+
+    i {
+      font-size: 1.5rem;
+    }
+  }
+
+  .stats-info {
+    flex-grow: 1;
+
+    .stats-value {
+      font-size: 1.5rem;
+      font-weight: $font-weight-bold;
+      margin-bottom: 0;
+      line-height: 1.2;
+    }
+
+    .stats-label {
+      color: $gray-600;
+      font-size: 0.875rem;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Custom Button Styles
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+  box-shadow: 0 3px 5px rgba($primary, 0.3);
+
+  &:hover, &:focus, &:active {
+    background-color: $purple-dark;
+    border-color: $purple-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba($primary, 0.4);
+  }
+}
+
+// Custom Sidebar Styles
+.sidebar {
+  width: var(--bs-sidebar-width);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: $white;
+  box-shadow: 0 0 15px rgba($black, 0.05);
+  transition: all 0.3s ease;
+  z-index: 1030; // Higher z-index to appear above content
+  overflow-y: auto;
+
+  // When collapsed (both on mobile and desktop)
+  &.collapsed {
+    transform: translateX(-100%); // Fully hide sidebar
+
+    .menu-text {
+      opacity: 0;
+    }
+
+    .sidebar-logo .logo-text {
+      opacity: 0;
+    }
+
+    .menu-icon {
+      margin-right: 0;
+    }
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid $gray-200;
+
+    .logo-icon {
+      font-size: 1.5rem;
+      font-weight: $font-weight-bold;
+      color: $primary;
+      margin-right: 0.75rem;
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: $font-weight-bold;
+      color: $gray-800;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .sidebar-menu {
+    list-style: none;
+    padding: 1.5rem 0;
+    margin: 0;
+
+    .menu-item {
+      margin-bottom: 0.5rem;
+
+      .menu-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        color: $gray-700;
+        text-decoration: none;
+        border-radius: 0;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: $primary;
+          background-color: rgba($primary, 0.05);
+        }
+
+        &.active {
+          color: $primary;
+          background-color: rgba($primary, 0.1);
+          font-weight: $font-weight-medium;
+
+          .menu-icon {
+            color: $primary;
+          }
+        }
+      }
+
+      .menu-icon {
+        margin-right: 0.75rem;
+        font-size: 1.25rem;
+        width: 1.5rem;
+        display: flex;
+        justify-content: center;
+        transition: margin 0.3s;
+      }
+
+      .menu-text {
+        transition: opacity 0.3s;
+      }
+    }
+  }
+}
+
+// Login Page Styles
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $gray-100;
+
+  .login-card {
+    width: 400px;
+    max-width: 90%;
+    background-color: $white;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+
+    .login-body {
+      padding: 2.5rem 2rem;
+
+      .form-label {
+        font-weight: $font-weight-medium;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-control {
+        background-color: $gray-100;
+        border: 1px solid $gray-300;
+        padding: 0.75rem;
+
+        &:focus {
+          background-color: $white;
+          box-shadow: 0 0 0 0.2rem rgba($primary, 0.15);
+          border-color: rgba($primary, 0.5);
+        }
+      }
+
+      .form-check-input:checked {
+        background-color: $primary;
+        border-color: $primary;
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 0.75rem;
+        font-weight: $font-weight-medium;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        color: $gray-500;
+        margin: 1.5rem 0;
+
+        &::before, &::after {
+          content: "";
+          flex: 1;
+          border-bottom: 1px solid $gray-300;
+        }
+
+        &::before {
+          margin-right: 1rem;
+        }
+
+        &::after {
+          margin-left: 1rem;
+        }
+      }
+
+      .social-login {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+
+        .btn-social {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: $gray-100;
+          color: $gray-700;
+          transition: all 0.2s;
+
+          &:hover {
+            background-color: $primary;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Custom Header
+.app-header {
+  height: var(--bs-header-height);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: var(--bs-sidebar-width);
+  background-color: $white;
+  box-shadow: 0 0 15px rgba($black, 0.05);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  z-index: 999;
+  transition: left 0.3s ease;
+
+  &.sidebar-collapsed {
+    left: 0;
+  }
+
+  .sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: $gray-100;
+
+    &:hover {
+      background-color: $gray-200;
+    }
+  }
+
+  .header-search {
+    flex: 1;
+    max-width: 400px;
+    margin-right: auto;
+
+    .input-group {
+      background-color: $gray-100;
+      border-radius: 50px;
+      padding: 0.25rem;
+
+      .form-control {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        padding-left: 1rem;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      .btn {
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary;
+        color: $white;
+
+        i {
+          font-size: 0.875rem;
+        }
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+
+    .notification-dropdown {
+      position: relative;
+
+      .dropdown-toggle {
+        background-color: $gray-100;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $gray-700;
+        margin-right: 0.75rem;
+
+        &:after {
+          display: none;
+        }
+
+        .badge {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          font-size: 0.65rem;
+          background-color: $danger;
+        }
+      }
+    }
+
+    .user-dropdown {
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        background: transparent;
+        border: none;
+
+        &:after {
+          margin-left: 0.75rem;
+        }
+
+        .avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 0.75rem;
+          background-color: $primary;
+          color: $white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: $font-weight-semibold;
+        }
+
+        .user-info {
+          text-align: left;
+
+          .user-name {
+            font-weight: $font-weight-medium;
+            font-size: 0.875rem;
+            margin-bottom: 0;
+          }
+
+          .user-role {
+            font-size: 0.75rem;
+            color: $gray-600;
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Main content area
+.main-content {
+  padding-top: calc(var(--bs-header-height) + 1.5rem);
+  padding-left: calc(var(--bs-sidebar-width) + 1.5rem);
+  padding-right: 1.5rem;
+  padding-bottom: 1.5rem;
+  min-height: 100vh;
+  transition: padding-left 0.3s ease;
+
+  &.sidebar-collapsed {
+    padding-left: 1.5rem;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 992px) {
+  .sidebar {
+    width: 280px; // Slightly wider on mobile for better touch targets
+
+    &:not(.collapsed) {
+      transform: translateX(0); // Show sidebar when not collapsed
+    }
+  }
+
+  .app-header {
+    left: 0;
+  }
+
+  .main-content {
+    padding-left: 1.5rem;
+  }
+
+  // Make header more compact on mobile
+  .header-search {
+    max-width: 200px !important;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}

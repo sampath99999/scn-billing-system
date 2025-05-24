@@ -1,1 +1,67 @@
-<p>sidebar works!</p>
+<div class="sidebar-backdrop" *ngIf="isMobile && !isCollapsed" (click)="toggleSidebar()"></div>
+<!-- Backdrop overlay for mobile -->
+<div class="sidebar-backdrop" *ngIf="isMobile && !isCollapsed" (click)="toggleSidebar()"></div>
+
+<div class="sidebar" [ngClass]="{'collapsed': isCollapsed}">
+    <!-- Logo -->
+    <div class="sidebar-logo">
+        <div class="logo-icon">SCN</div>
+        <div class="logo-text">Billing System</div>
+    </div>
+
+    <!-- Menu Items -->
+    <ul class="sidebar-menu">
+        <li class="menu-item">
+            <a routerLink="/dashboard" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-grid menu-icon"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a routerLink="/invoices" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-receipt menu-icon"></i>
+                <span class="menu-text">Invoices</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a routerLink="/customers" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-people menu-icon"></i>
+                <span class="menu-text">Customers</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a routerLink="/products" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-box-seam menu-icon"></i>
+                <span class="menu-text">Products</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a routerLink="/reports" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-bar-chart menu-icon"></i>
+                <span class="menu-text">Reports</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a routerLink="/payments" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-credit-card menu-icon"></i>
+                <span class="menu-text">Payments</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a routerLink="/settings" routerLinkActive="active" class="menu-link">
+                <i class="bi bi-gear menu-icon"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </li>
+    </ul>    <!-- Bottom menu items -->
+    <div class="mt-auto p-3">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="javascript:void(0)" class="menu-link" (click)="logout()">
+                    <i class="bi bi-box-arrow-left menu-icon"></i>
+                    <span class="menu-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,42 +1,50 @@
-<div class="min-vh-100 min-vw-100 d-flex flex-column justify-content-center align-items-center">
-	<div class="col-11 col-sm-7 col-md-6 col-lg-3">
-		<h3 class="text-center fw-bold">Login</h3>
-		<p class="text-secondary text-center">Login into go to dashboard</p>
-		<hr>
-		<form [formGroup]="loginForm" (ngSubmit)="login()">
-			<div class="mb-3">
-				<label for="username" class="form-label">Username</label>
-				<input
-					type="text"
-					id="username"
-					formControlName="username"
-					placeholder="Enter your username"
-					class="form-control form-control-sm"
-					[class.is-invalid]="formService.isFieldInvalid('username')"
-					[required]="true"
-					[minlength]="3"
-					[maxlength]="25"
-				/>
-				@if (formService.isFieldInvalid('username')) {
-					<div class="invalid-feedback">
-						{{ formService.getFieldErrorMessage('username') }}
+<div class="login-page">
+	<div class="login-card">
+		<div class="login-body">
+			<h4 class="mb-1 fw-bold">Welcome back!</h4>
+			<p class="text-muted mb-4">Please sign in to your account</p>
+
+			<form [formGroup]="loginForm" (ngSubmit)="login()">
+				<div class="mb-3">
+					<label for="username" class="form-label">Username</label>
+					<div class="input-group mb-2">
+						<span class="input-group-text bg-light border-end-0">
+							<i class="bi bi-person"></i>
+						</span>
+						<input
+							type="text"
+							id="username"
+							formControlName="username"
+							placeholder="Enter your username"
+							class="form-control border-start-0"
+							[class.is-invalid]="formService.isFieldInvalid('username')"
+							[required]="true"
+							[minlength]="3"
+							[maxlength]="25"
+						/>
 					</div>
-				}
-			</div>
-			<div class="mb-3">
-				<div class="d-flex align-items-center justify-content-between">
-					<label for="password" class="form-label">Password</label>
-					<a routerLink="/forgot-password" class="text-decoration-none text-secondary">
-						<small>Forgot password?</small>
-					</a>
+					@if (formService.isFieldInvalid('username')) {
+						<div class="text-danger small">
+							{{ formService.getFieldErrorMessage('username') }}
+						</div>
+					}
 				</div>
-				<div class="position-relative">
+				<div class="mb-4">
+					<div class="d-flex align-items-center justify-content-between">
+						<label for="password" class="form-label">Password</label>
+						<a routerLink="/forgot-password" class="text-decoration-none small text-primary">
+							Forgot password?
+						</a>				</div>
+				<div class="input-group mb-2">
+					<span class="input-group-text bg-light border-end-0">
+						<i class="bi bi-lock"></i>
+					</span>
 					<input
 						type="password"
 						id="password"
 						formControlName="password"
 						placeholder="Enter your password"
-						class="form-control form-control-sm"
+						class="form-control border-start-0"
 						[class.is-invalid]="formService.isFieldInvalid('password')"
 						#passwordField
 						[required]="true"
@@ -44,9 +52,8 @@
 						[maxlength]="50"
 					/>
 					<button
-						class="btn btn-sm position-absolute top-0 end-0"
+						class="btn btn-light border border-start-0"
 						type="button"
-						style="z-index: 10;"
 						(click)="togglePasswordVisibility(passwordField)"
 					>
 						<i class="bi"
@@ -54,23 +61,31 @@
 					</button>
 				</div>
 				@if (formService.isFieldInvalid('password')) {
-					<div class="invalid-feedback" style="display: block;">
+					<div class="text-danger small">
 						{{ formService.getFieldErrorMessage('password') }}
 					</div>
 				}
+
+				<div class="mb-4 mt-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label small" for="rememberMe">Remember me</label>
+                </div>
 			</div>
-			<div class="mb-3">
-				<button type="submit" class="btn btn-dark w-100">
+
+			<div class="mb-4">
+				<button type="submit" class="btn btn-primary btn-login">
 					@if(showLoading){
-						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
 					}
-					Login
+					<i class="bi bi-box-arrow-in-right me-2"></i>Sign In
 				</button>
 			</div>
-			<div class="mb-3 text-center">
-				<small class="text-secondary">
-					Don't have an account? <a routerLink="/register" class="text-decoration-none">Register</a>
-				</small>
+
+			<div class="divider">or continue with</div>
+			<div class="text-center">
+				<p class="small text-muted mb-0">
+					Don't have an account? <a routerLink="/register" class="text-decoration-none text-primary fw-medium">Create Account</a>
+				</p>
 			</div>
 		</form>
 	</div>

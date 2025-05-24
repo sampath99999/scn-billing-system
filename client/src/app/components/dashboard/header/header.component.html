@@ -1,1 +1,52 @@
-<p>header works!</p>
+<div class="app-header" [ngClass]="{'sidebar-collapsed': sidebarCollapsed}">
+    <!-- Sidebar toggle for both mobile and desktop -->
+    <button class="btn btn-sm btn-light me-3 sidebar-toggle-btn" (click)="toggleSidebar()">
+        <i class="bi" [ngClass]="sidebarCollapsed ? 'bi-arrow-right' : 'bi-arrow-left'"></i>
+    </button>
+
+    <!-- Search bar -->
+    <div class="header-search">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+            <button class="btn">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Header actions -->
+    <div class="header-actions">
+        <!-- Notification dropdown -->
+        <div class="notification-dropdown dropdown">
+            <button class="dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell"></i>
+                <span class="badge rounded-pill">3</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                <li><h6 class="dropdown-header">Notifications</h6></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt me-2 text-primary"></i> New invoice created</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-credit-card me-2 text-success"></i> Payment received</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-exclamation-triangle me-2 text-warning"></i> Invoice #123 is overdue</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-center" href="#">See all notifications</a></li>
+            </ul>
+        </div>
+
+        <!-- User dropdown -->
+        <div class="user-dropdown dropdown">
+            <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="avatar">JS</div>
+                <div class="user-info d-none d-md-block">
+                    <p class="user-name">John Smith</p>
+                    <p class="user-role">Administrator</p>
+                </div>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> My Profile</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" (click)="logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

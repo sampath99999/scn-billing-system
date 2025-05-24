@@ -15,7 +15,7 @@ export class AuthService {
 	public login(username: string, password: string) {
 		return new Promise((resolve, reject) => {
 			this.api.post('/auth/login', {username, password}).then((res: any) => {
-				localStorage.setItem('token', res.token);
+				localStorage.setItem('token', res.data.token);
 				resolve(res);
 			}).catch((error) => {
 				reject(error);
