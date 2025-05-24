@@ -30,8 +30,12 @@ export class LoginComponent implements OnInit{
 	];
 
 	protected passwordVisible: boolean = false;
+	protected showLoading: boolean = false;
 
 	constructor() {
+		if(localStorage.getItem('token')) {
+			window.location.href = '/dashboard';
+		}
 	}
 
 	ngOnInit() {
@@ -52,11 +56,13 @@ export class LoginComponent implements OnInit{
 			this.loginForm.markAllAsTouched();
 			return;
 		}
+		this.showLoading = true;
 		this.authService.login(this.loginForm.value.username, this.loginForm.value.password).then((res: any) => {
 			if (res) {
 				toast('Login successful', {
 					description: 'You will be redirected to the dashboard',
 				});
+				window.location.href = '/dashboard';
 			} else {
 				toast('Login failed');
 			}
@@ -65,6 +71,8 @@ export class LoginComponent implements OnInit{
 			toast.error('Login Failed!', {
 				description: error?.error?.message ?? 'Something went wrong'
 			});
+		}).finally(() => {
+			this.showLoading = false;
 		});
 	}
 }
