@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import {toast} from 'ngx-sonner';
 
 
 @Injectable({
@@ -88,6 +89,7 @@ export class ApiService {
 	public handleApiError(error: HttpErrorResponse) {
 		if (error.status == 401) {
 			localStorage.removeItem('token');
+			toast('Session expired. Please login again.')
 			this.router.navigate(['/']);
 		}
 		this.spinner.hide();

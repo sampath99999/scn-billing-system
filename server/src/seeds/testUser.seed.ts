@@ -3,7 +3,6 @@ import { User } from '#models/user.model.js';
 import mongoose from 'mongoose';
 import { Company } from '../models/company.model.js';
 import { UserTypes } from '#types/UserTypes.js';
-import connectDB from '#utils/database.js';
 
 export class TestUserSeeder {
     async seed() {

@@ -1,12 +1,12 @@
 import connectDB from '#utils/database.js';
 import { TestUserSeeder } from './testUser.seed.js';
 
-connectDB();
+await connectDB();
 
 console.info('Seeding Started');
 const seedingClasses = [TestUserSeeder];
 
-for (let seedClass of seedingClasses) {
+for (const seedClass of seedingClasses) {
     await new seedClass().seed().catch(console.error);
 }
 

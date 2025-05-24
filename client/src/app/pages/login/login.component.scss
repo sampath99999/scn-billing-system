@@ -1,0 +1,7 @@
+input[type=password].is-invalid {
+	background-image: none !important;
+}
+
+input[type=password].is-invalid:active {
+	background-image: none !important;
+}

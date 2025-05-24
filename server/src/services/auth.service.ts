@@ -14,13 +14,13 @@ const AuthService = {
             if (!user) {
                 throw new AppError(
                     'Invalid Credentials, Please check Username and Password',
-                    404,
+                    400,
                 );
             }
             if (!(await Encrypter.comparePassword(password, user.password))) {
                 throw new AppError(
                     'Invalid Credentials, Please check Username and Password',
-                    404,
+                    400,
                 );
             }
             await this.checkIfCompanyIsActive(user.company_id);
