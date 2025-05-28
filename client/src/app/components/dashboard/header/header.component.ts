@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth-service/auth.service';
-import { User, UserTypes } from '../../../types/User';
+import { User, UserTypeLabels } from '../../../types/User';
 import { toast } from 'ngx-sonner';
 
 @Component({
@@ -17,7 +17,7 @@ export class HeaderComponent {
 
 	protected isAuthLoading = false;
 	protected userDetails: User | null = null;
-	protected UserTypes = UserTypes;
+	protected UserTypes = UserTypeLabels;
 
 	constructor(private authService: AuthService) {
 		this.initFunc();

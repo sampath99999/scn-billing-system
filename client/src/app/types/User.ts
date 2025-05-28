@@ -9,7 +9,10 @@ export interface User {
 	is_active: boolean;
 }
 
-export const UserTypes: { [key: number]: string } = {
-	1: 'Admin',
-	2: 'Employee'
+export const ADMIN_USER_TYPE = 1;
+export const EMPLOYEE_USER_TYPE = 2;
+
+export const UserTypeLabels: Record<number, string> = {
+	[ADMIN_USER_TYPE]: 'Admin',
+	[EMPLOYEE_USER_TYPE]: 'Employee'
 };
