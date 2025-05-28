@@ -8,6 +8,7 @@ import {User} from '../../types/User';
 })
 export class AuthService {
 	public authDetails: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+	public isAuthLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	constructor(protected api: ApiService) {
 	}
@@ -20,6 +21,28 @@ export class AuthService {
 			}).catch((error) => {
 				reject(error);
 			});
+		});
+	}
+
+	public getUserDetails() {
+		return new Promise((resolve, reject) => {
+			this.isAuthLoading.next(true);
+			this.api.get('/auth/user').then((res: any) => {
+				this.authDetails.next(res.user);
+				resolve(res);
+			}).catch((error) => {
+				reject(error);
+			}).finally(() => {
+				this.isAuthLoading.next(false);
+			});
+		});
+	}
+
+	public logout() {
+		return new Promise((resolve, reject) => {
+			localStorage.removeItem('token');
+			this.authDetails.next(null);
+			resolve(true);
 		});
 	}
 }

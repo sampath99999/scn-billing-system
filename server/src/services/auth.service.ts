@@ -68,6 +68,23 @@ const AuthService = {
             throw new AppError('Error checking company status', 500);
         }
     },
+
+    async getUserDetails(userId: mongoose.Types.ObjectId) {
+        try {
+            const user = await User.findById(userId).select(
+                '-password -__v -createdAt -updatedAt',
+            );
+            if (!user) {
+                throw new AppError('User not found', 401);
+            }
+            return user;
+        } catch (error) {
+            if (error instanceof AppError) {
+                throw error;
+            }
+            throw new AppError('Error fetching user details', 500);
+        }
+    },
 };
 
 export default AuthService;

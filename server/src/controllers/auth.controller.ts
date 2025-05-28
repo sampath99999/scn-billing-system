@@ -1,5 +1,6 @@
 import catchAsync from '#helpers/catchAsync.helper.js';
 import AuthService from '#services/auth.service.js';
+import { RequestWithUserAndBody } from '#utils/jwt.js';
 import { Request, Response } from 'express';
 
 export const AuthController = {
@@ -14,4 +15,14 @@ export const AuthController = {
             data: response,
         });
     }),
+
+    getUserDetails: catchAsync(async (req: Request, res: Response) => {
+        const user = await AuthService.getUserDetails(
+            (req as RequestWithUserAndBody<unknown>).user._id,
+        );
+        res.status(200).json({
+            message: 'User details fetched successfully',
+            user,
+        });
+    })
 };

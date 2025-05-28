@@ -8,3 +8,8 @@ export interface User {
 	company_id: string;
 	is_active: boolean;
 }
+
+export const UserTypes: { [key: number]: string } = {
+	1: 'Admin',
+	2: 'Employee'
+};

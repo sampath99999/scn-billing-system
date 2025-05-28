@@ -255,7 +255,7 @@ $input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, .25);
       opacity: 0;
     }
 
-    .sidebar-logo .logo-text {
+    .sidebar-logo {
       opacity: 0;
     }
 
@@ -269,19 +269,13 @@ $input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, .25);
     align-items: center;
     padding: 1.5rem;
     border-bottom: 1px solid $gray-200;
+	justify-content: center;
 
     .logo-icon {
       font-size: 1.5rem;
       font-weight: $font-weight-bold;
       color: $primary;
       margin-right: 0.75rem;
-    }
-
-    .logo-text {
-      font-size: 1.25rem;
-      font-weight: $font-weight-bold;
-      color: $gray-800;
-      transition: opacity 0.3s;
     }
   }
 
@@ -461,78 +455,9 @@ $input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, .25);
     }
   }
 
-  .header-search {
-    flex: 1;
-    max-width: 400px;
-    margin-right: auto;
-
-    .input-group {
-      background-color: $gray-100;
-      border-radius: 50px;
-      padding: 0.25rem;
-
-      .form-control {
-        background-color: transparent;
-        border: none;
-        box-shadow: none;
-        padding-left: 1rem;
-
-        &:focus {
-          box-shadow: none;
-        }
-      }
-
-      .btn {
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: $primary;
-        color: $white;
-
-        i {
-          font-size: 0.875rem;
-        }
-      }
-    }
-  }
-
   .header-actions {
     display: flex;
     align-items: center;
-
-    .notification-dropdown {
-      position: relative;
-
-      .dropdown-toggle {
-        background-color: $gray-100;
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: $gray-700;
-        margin-right: 0.75rem;
-
-        &:after {
-          display: none;
-        }
-
-        .badge {
-          position: absolute;
-          top: -5px;
-          right: -5px;
-          font-size: 0.65rem;
-          background-color: $danger;
-        }
-      }
-    }
 
     .user-dropdown {
       .dropdown-toggle {
