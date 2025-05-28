@@ -3,8 +3,10 @@ import PackageService from '#services/packages.service.js';
 import { Package } from '#models/packages.model.js';
 import { Company, CompanyInterface } from '#models/company.model.js';
 import mongoose from 'mongoose';
-import { PACKAGE_TYPES } from '#types/Package.js';
+import { PACKAGE_TYPES, PackageFilterOptions, PackageSortOptions } from '#types/Package.js';
 import { connectTestDB } from '#utils/database.js';
+import { RequestWithUserAndBody } from '#utils/jwt.js';
+import { FiltersAndSort } from '#types/Common.js';
 
 describe('Package Service Tests', () => {
     let company: CompanyInterface & { _id: mongoose.Types.ObjectId };
@@ -12,6 +14,21 @@ describe('Package Service Tests', () => {
         name: string;
         package_type: string;
         price_per_month: number;
+    };
+
+    // Helper function to create properly typed mock requests
+    const createMockRequest = (
+        companyId: mongoose.Types.ObjectId,
+        body: FiltersAndSort<PackageFilterOptions, PackageSortOptions>
+    ): RequestWithUserAndBody<FiltersAndSort<PackageFilterOptions, PackageSortOptions>> => {
+        return {
+            user: {
+                _id: new mongoose.Types.ObjectId(),
+                user_type: 1,
+                company_id: companyId,
+            },
+            body,
+        } as RequestWithUserAndBody<FiltersAndSort<PackageFilterOptions, PackageSortOptions>>;
     };
 
     beforeAll(async () => {
@@ -61,11 +78,54 @@ describe('Package Service Tests', () => {
     });
 
     describe('Get All Packages', () => {
-        it('should get all packages for a company', async () => {
-            const packages = await PackageService.getAllPackages(company._id);
-            expect(Array.isArray(packages)).toBe(true);
-            expect(packages.length).toBe(1);
-            expect(packages[0].name).toBe(testPackageData.name);
+        it('should get all packages for a company with filters and pagination', async () => {
+            const mockRequest = createMockRequest(company._id, {
+                page: 1,
+                pageSize: 10,
+            });
+
+            const result = await PackageService.getAllPackages(mockRequest);
+            expect(result).toHaveProperty('packages');
+            expect(result).toHaveProperty('pagination');
+            expect(Array.isArray(result.packages)).toBe(true);
+            expect(result.packages.length).toBe(1);
+            expect(result.packages[0].name).toBe(testPackageData.name);
+            expect(result.pagination.totalCount).toBe(1);
+            expect(result.pagination.currentPage).toBe(1);
+        });
+
+        it('should filter packages by package_type', async () => {
+            // Create an add-on package
+            await PackageService.createPackage(
+                {
+                    name: 'Test Add-on',
+                    package_type: PACKAGE_TYPES.ADD_ON,
+                    price_per_month: 199,
+                },
+                company._id,
+            );
+
+            const mockRequest = createMockRequest(company._id, {
+                filters: { package_type: PACKAGE_TYPES.ADD_ON },
+                page: 1,
+                pageSize: 10,
+            });
+
+            const result = await PackageService.getAllPackages(mockRequest);
+            expect(result.packages.length).toBe(1);
+            expect(result.packages[0].package_type).toBe(PACKAGE_TYPES.ADD_ON);
+        });
+
+        it('should search packages by name', async () => {
+            const mockRequest = createMockRequest(company._id, {
+                searchTerm: 'Test',
+                page: 1,
+                pageSize: 10,
+            });
+
+            const result = await PackageService.getAllPackages(mockRequest);
+            expect(result.packages.length).toBeGreaterThan(0);
+            expect(result.packages.some(pkg => pkg.name.includes('Test'))).toBe(true);
         });
 
         it('should return empty array for a company with no packages', async () => {
@@ -78,9 +138,15 @@ describe('Package Service Tests', () => {
                 is_active: true,
             }) as CompanyInterface & { _id: mongoose.Types.ObjectId };
 
-            const packages = await PackageService.getAllPackages(anotherCompany._id);
-            expect(Array.isArray(packages)).toBe(true);
-            expect(packages.length).toBe(0);
+            const mockRequest = createMockRequest(anotherCompany._id, {
+                page: 1,
+                pageSize: 10,
+            });
+
+            const result = await PackageService.getAllPackages(mockRequest);
+            expect(Array.isArray(result.packages)).toBe(true);
+            expect(result.packages.length).toBe(0);
+            expect(result.pagination.totalCount).toBe(0);
 
             // Clean up
             await Company.findByIdAndDelete(anotherCompany._id);
@@ -90,8 +156,12 @@ describe('Package Service Tests', () => {
     describe('Update Package', () => {
         it('should successfully update a package', async () => {
             // First, get the existing package
-            const packages = await PackageService.getAllPackages(company._id);
-            const packageId = packages[0]._id as mongoose.Types.ObjectId;
+            const mockRequest = createMockRequest(company._id, {
+                page: 1,
+                pageSize: 10
+            });
+            const result = await PackageService.getAllPackages(mockRequest);
+            const packageId = result.packages[0]._id as mongoose.Types.ObjectId;
 
             const updatedData = {
                 name: 'Updated Package Name',

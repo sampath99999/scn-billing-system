@@ -1,6 +1,6 @@
 import { Package } from '#models/packages.model.js';
 import { FiltersAndSort } from '#types/Common.js';
-import { NewPackageData } from '#types/Package.js';
+import { NewPackageData, PackageFilterOptions, PackageSortOptions } from '#types/Package.js';
 import { AppError } from '#utils/appError.js';
 import { RequestWithUserAndBody } from '#utils/jwt.js';
 import mongoose from 'mongoose';
@@ -33,7 +33,7 @@ const PackageService = {
         }
     },
 
-    getAllPackages: async (data: RequestWithUserAndBody<FiltersAndSort>) => {
+    getAllPackages: async (data: RequestWithUserAndBody<FiltersAndSort<PackageFilterOptions, PackageSortOptions>>) => {
         const searchTerm = data.body.searchTerm;
         const filters = data.body.filters;
         const page = data.body.page ?? 1;
@@ -51,17 +51,29 @@ const PackageService = {
         }
 
         if (filters) {
-            Object.keys(filters).forEach((key) => {
-                query[key] = filters[key];
-            });
+            // Handle filters as key-value pairs
+            if (filters.package_type) {
+                query.package_type = filters.package_type;
+            }
         }
+
+        // Get total count for pagination
+        const totalCount = await Package.countDocuments(query);
 
         const packages = await Package.find(query)
             .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
             .skip((page - 1) * pageSize)
             .limit(pageSize);
 
-        return packages;
+        return {
+            packages,
+            pagination: {
+                currentPage: page,
+                pageSize,
+                totalCount,
+                totalPages: Math.ceil(totalCount / pageSize),
+            },
+        };
     },
 
     updatePackage: async (
@@ -70,7 +82,8 @@ const PackageService = {
         companyId: mongoose.Types.ObjectId,
     ) => {
         const { name, package_type, price_per_month } = packageData;
-        await PackageService.checkPackageExists(name, companyId, packageId);
+
+        // First check if package exists
         const packageExists = await Package.exists({
             _id: packageId,
             company_id: companyId,
@@ -78,6 +91,10 @@ const PackageService = {
         if (!packageExists) {
             throw new AppError('Package not found', 404);
         }
+
+        // Then check for name conflicts
+        await PackageService.checkPackageExists(name, companyId, packageId);
+
         const updatedPackage = await Package.findByIdAndUpdate(
             packageId,
             {

@@ -3,7 +3,7 @@ import {
     IsAdminMiddleware,
 } from '#middlewares/auth.middleware.js';
 import { PackageController } from '#controllers/package.controller.js';
-import { createPackageSchema } from '#schemas/package.schema.js';
+import { createPackageSchema, packageQuerySchema } from '#schemas/package.schema.js';
 import validate from '#utils/validate.js';
 import { Router } from 'express';
 
@@ -16,7 +16,12 @@ PackageRouter.post(
     validate(createPackageSchema),
     PackageController.createPackage,
 );
-PackageRouter.get('/', AuthMiddleware, PackageController.getAllPackages);
+PackageRouter.get(
+    '/',
+    AuthMiddleware,
+    validate(packageQuerySchema),
+    PackageController.getAllPackages
+);
 PackageRouter.patch(
     '/:id',
     AuthMiddleware,

@@ -1,3 +1,4 @@
+import { PackageFilterOptions, PackageSortOptions } from '#types/Package.js';
 import catchAsync from '#helpers/catchAsync.helper.js';
 import PackageService from '#services/packages.service.js';
 import { FiltersAndSort } from '#types/Common.js';
@@ -21,10 +22,34 @@ export const PackageController = {
     }),
 
     getAllPackages: catchAsync(async (req: Request, res: Response) => {
-        const packages = await PackageService.getAllPackages(req as RequestWithUserAndBody<FiltersAndSort>);
+        // Extract query parameters and convert to proper types
+        const filters: PackageFilterOptions = {};
+
+        // Handle package_type filter
+        if (req.query.package_type) {
+            filters.package_type = req.query.package_type as string;
+        }
+
+        const queryData: FiltersAndSort<PackageFilterOptions, PackageSortOptions> = {
+            searchTerm: req.query.searchTerm as string,
+            filters: Object.keys(filters).length > 0 ? filters : undefined,
+            page: req.query.page ? Number(req.query.page) : undefined,
+            pageSize: req.query.pageSize ? Number(req.query.pageSize) : undefined,
+            sortBy: req.query.sortBy as PackageSortOptions,
+            sortOrder: req.query.sortOrder as 'asc' | 'desc',
+        };
+
+        // Create request object with user and query data
+        const requestWithData = {
+            ...req,
+            body: queryData,
+        } as RequestWithUserAndBody<FiltersAndSort<PackageFilterOptions, PackageSortOptions>>;
+
+        const result = await PackageService.getAllPackages(requestWithData);
         res.status(200).json({
             message: 'Packages fetched successfully',
-            packages,
+            data: result.packages,
+            pagination: result.pagination,
         });
     }),
 

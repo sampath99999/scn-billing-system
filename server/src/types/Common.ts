@@ -1,8 +1,8 @@
-export interface FiltersAndSort{
+export interface FiltersAndSort<FilterOptions, SortOptions> {
     searchTerm?: string;
-    filters?: Record<string, string | number | boolean>;
+    filters?: FilterOptions;
     page?: number;
     pageSize?: number;
-    sortBy?: 'name' | 'price';
+    sortBy?: SortOptions;
     sortOrder?: 'asc' | 'desc';
 }
