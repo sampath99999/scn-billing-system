@@ -1,5 +1,6 @@
 import catchAsync from '#helpers/catchAsync.helper.js';
 import PackageService from '#services/packages.service.js';
+import { FiltersAndSort } from '#types/Common.js';
 import { NewPackageData } from '#types/Package.js';
 import { RequestWithUserAndBody } from '#utils/jwt.js';
 import { Request, Response } from 'express';
@@ -20,9 +21,7 @@ export const PackageController = {
     }),
 
     getAllPackages: catchAsync(async (req: Request, res: Response) => {
-        const packages = await PackageService.getAllPackages(
-            (req as RequestWithUserAndBody<NewPackageData>).user.company_id,
-        );
+        const packages = await PackageService.getAllPackages(req as RequestWithUserAndBody<FiltersAndSort>);
         res.status(200).json({
             message: 'Packages fetched successfully',
             packages,

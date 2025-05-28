@@ -1,6 +1,8 @@
 import { Package } from '#models/packages.model.js';
+import { FiltersAndSort } from '#types/Common.js';
 import { NewPackageData } from '#types/Package.js';
 import { AppError } from '#utils/appError.js';
+import { RequestWithUserAndBody } from '#utils/jwt.js';
 import mongoose from 'mongoose';
 
 const PackageService = {
@@ -31,8 +33,34 @@ const PackageService = {
         }
     },
 
-    getAllPackages: async (companyId: mongoose.Types.ObjectId) => {
-        const packages = await Package.find({ company_id: companyId });
+    getAllPackages: async (data: RequestWithUserAndBody<FiltersAndSort>) => {
+        const searchTerm = data.body.searchTerm;
+        const filters = data.body.filters;
+        const page = data.body.page ?? 1;
+        const pageSize = data.body.pageSize ?? 10;
+        const sortBy = data.body.sortBy ?? 'name';
+        const sortOrder = data.body.sortOrder ?? 'asc';
+
+        const query: Record<string, unknown> = { company_id: data.user.company_id };
+
+        if (searchTerm) {
+            query.$or = [
+                { name: { $regex: searchTerm, $options: 'i' } },
+                ...(isNaN(Number(searchTerm)) ? [] : [{ price_per_month: Number(searchTerm) }])
+            ];
+        }
+
+        if (filters) {
+            Object.keys(filters).forEach((key) => {
+                query[key] = filters[key];
+            });
+        }
+
+        const packages = await Package.find(query)
+            .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
+            .skip((page - 1) * pageSize)
+            .limit(pageSize);
+
         return packages;
     },
 
