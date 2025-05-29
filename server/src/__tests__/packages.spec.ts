@@ -214,5 +214,52 @@ describe('Package Service Tests', () => {
                 )
             ).rejects.toThrow(/not found/);
         });
+
+        describe('Sort Packages', () => {
+            it('should sort packages by name in ascending order', async () => {
+                // Create packages with names that will sort alphabetically
+                await PackageService.createPackage(
+                    {
+                        name: 'A Package',
+                        package_type: PACKAGE_TYPES.PACKAGE,
+                        price_per_month: 599,
+                    },
+                    company._id,
+                );
+
+                await PackageService.createPackage(
+                    {
+                        name: 'Z Package',
+                        package_type: PACKAGE_TYPES.PACKAGE,
+                        price_per_month: 699,
+                    },
+                    company._id,
+                );
+
+                const mockRequest = createMockRequest(company._id, {
+                    page: 1,
+                    pageSize: 10,
+                    sortBy: 'name',
+                    sortOrder: 'asc'
+                });
+
+                const result = await PackageService.getAllPackages(mockRequest);
+                expect(result.packages.length).toBeGreaterThan(2);
+                expect(result.packages[0].name).toBe('A Package');
+            });
+
+            it('should sort packages by name in descending order', async () => {
+                const mockRequest = createMockRequest(company._id, {
+                    page: 1,
+                    pageSize: 10,
+                    sortBy: 'name',
+                    sortOrder: 'desc'
+                });
+
+                const result = await PackageService.getAllPackages(mockRequest);
+                expect(result.packages.length).toBeGreaterThan(2);
+                expect(result.packages[0].name).toBe('Z Package');
+            });
+        });
     });
 });

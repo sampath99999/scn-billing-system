@@ -32,7 +32,7 @@ export const PackageController = {
 
         const queryData: FiltersAndSort<PackageFilterOptions, PackageSortOptions> = {
             searchTerm: req.query.searchTerm as string,
-            filters: Object.keys(filters).length > 0 ? filters : undefined,
+            filters,
             page: req.query.page ? Number(req.query.page) : undefined,
             pageSize: req.query.pageSize ? Number(req.query.pageSize) : undefined,
             sortBy: req.query.sortBy as PackageSortOptions,
