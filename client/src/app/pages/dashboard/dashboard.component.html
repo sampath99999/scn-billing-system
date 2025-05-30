@@ -1,8 +1,0 @@
-<!-- Dashboard Layout -->
-<app-sidebar [isCollapsed]="sidebarCollapsed" (toggleSidebarEvent)="toggleSidebar()"></app-sidebar>
-<app-header [sidebarCollapsed]="sidebarCollapsed" (toggleSidebarEvent)="toggleSidebar()"></app-header>
-
-<!-- Main Content -->
-<div class="main-content" [ngClass]="{'sidebar-collapsed': sidebarCollapsed}">
-	<router-outlet></router-outlet>
-</div>
