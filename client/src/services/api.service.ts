@@ -1,10 +1,12 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { toast } from 'sonner';
+import { AuthService } from './auth.service';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const getToken = (): string | null => {
-  return localStorage.getItem('access_token');
+  return localStorage.getItem('token');
 };
 
 const api: AxiosInstance = axios.create({
@@ -34,7 +36,8 @@ api.interceptors.response.use(
       const { status } = error.response;
 
       if (status === 401) {
-        console.error('Unauthorized - maybe refresh token here');
+        toast.error('Unauthorized access. Please log in again.');
+        AuthService().removeTokenAndRedirect();
       }
 
       if (status === 403) {

@@ -1,5 +1,6 @@
 import { toast } from 'sonner';
 import api from './api.service';
+import type { User } from '@/types/User';
 
 export function AuthService() {
     const login = async ({
@@ -11,7 +12,7 @@ export function AuthService() {
     }) => {
         api.post('/auth/login', { username, password })
             .then((response) => {
-                const { token } = response.data;
+                const token = response.data.data.token;
                 localStorage.setItem('token', token);
                 toast.success('Login successful!');
                 window.location.href = '/dashboard';
@@ -24,13 +25,15 @@ export function AuthService() {
             });
     };
 
-    const checkUser = async () => {
+    const checkUser = async (callback: (user: User) => void) => {
         api.get('/auth/user')
             .then((response) => {
-                const user = response.data;
+                const user: User = response.data.user;
                 if (!user) {
                     toast.error('User not found. Please log in again.');
                     removeTokenAndRedirect();
+                } else {
+                    callback(user);
                 }
             })
             .catch((error) => {
@@ -49,5 +52,6 @@ export function AuthService() {
     return {
         login,
         checkUser,
+        removeTokenAndRedirect,
     };
 }

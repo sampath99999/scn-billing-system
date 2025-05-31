@@ -1,10 +1,30 @@
+import { Header } from '@/components/dashboard/layout/header';
+import { AppSidebar } from '@/components/dashboard/layout/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { UserDetailsContext } from '@/contexts/UserDetailsContext';
+import { useUserDetails } from '@/hooks/userDetails.hook';
+import { Outlet } from 'react-router'; // Make sure it's 'react-router-dom'
+import { Toaster } from 'sonner';
+
 export default function DashboardPage() {
-    return (
-        <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-            <div className="w-full max-w-sm">
-                <h1 className="text-2xl font-bold">Dashboard</h1>
-                <p className="mt-4">Welcome to your dashboard!</p>
+  const userDetails = useUserDetails();
+
+  return (
+    <>
+      <UserDetailsContext.Provider value={userDetails}>
+        <SidebarProvider>
+          <div className="flex flex-col h-screen w-screen overflow-hidden">
+            <Header />
+            <div className="flex flex-1 overflow-hidden">
+              <AppSidebar />
+              <main className="flex-1 overflow-auto p-4 bg-muted/50">
+                <Outlet />
+              </main>
             </div>
-        </div>
-    );
+          </div>
+        </SidebarProvider>
+      </UserDetailsContext.Provider>
+      <Toaster />
+    </>
+  );
 }

@@ -6,12 +6,17 @@ import {
   RouterProvider,
 } from "react-router";
 import LoginPage from './pages/login.page';
+import DashboardPage from './pages/dashboard/dashboard';
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: LoginPage
   },
+  {
+    path: '/dashboard',
+    Component: DashboardPage
+  }
 ]);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
