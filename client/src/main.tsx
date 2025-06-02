@@ -7,6 +7,7 @@ import {
 } from "react-router";
 import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard/dashboard';
+import PackagesPage from './pages/dashboard/packages';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,30 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    Component: DashboardPage
+    Component: DashboardPage,
+    children: [
+      {
+        path: 'master-data',
+        children: [
+          {
+            path: 'packages',
+            Component: PackagesPage
+          },
+          // {
+          //   path: 'streets',
+          //   Component: StreetsPage
+          // },
+          // {
+          //   path: 'accessories',
+          //   Component: AccessoriesPage
+          // },
+          // {
+          //   path: 'users',
+          //   Component: UsersPage
+          // }
+        ]
+      }
+    ]
   }
 ]);
 createRoot(document.getElementById('root')!).render(
