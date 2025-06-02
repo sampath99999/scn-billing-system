@@ -12,7 +12,7 @@ import { MenuIcon } from "lucide-react";
 
 export function Header() {
   return (
-    <header className="flex h-16 items-center justify-between px-4 border-b bg-white w-screen">
+    <header className="flex h-16 items-center justify-between px-4 border-b shrink-0 relative z-10">
       {/* Left Section: Menu Button and Logo */}
       <div className="flex items-center gap-4">
         <SidebarTrigger>

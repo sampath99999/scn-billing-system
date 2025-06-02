@@ -13,9 +13,9 @@ export default function DashboardPage() {
     <>
       <UserDetailsContext.Provider value={userDetails}>
         <SidebarProvider>
-          <div className="flex flex-col h-screen w-screen overflow-hidden">
+          <div className="flex flex-col h-screen w-full overflow-hidden">
             <Header />
-            <div className="flex flex-1 overflow-hidden">
+            <div className="flex flex-1 overflow-hidden dashboard-sidebar">
               <AppSidebar />
               <main className="flex-1 overflow-auto p-4 bg-muted/50">
                 <Outlet />

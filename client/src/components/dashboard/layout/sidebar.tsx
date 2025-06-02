@@ -7,22 +7,21 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import {
-  FaTachometerAlt,
-  FaUsers,
-  FaDatabase,
-  FaChartBar,
-} from 'react-icons/fa';
+  RxDashboard,
+} from 'react-icons/rx';
+import { FiUsers, FiDatabase, FiPieChart } from "react-icons/fi";
+import { Link } from 'react-router';
 
 export function AppSidebar() {
   return (
-    <Sidebar side="left" collapsible="icon" className="h-full">
-      <SidebarContent>
+    <Sidebar side="left" collapsible="icon" className="relative h-full">
+      <SidebarContent className='bg-white'>
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href="/dashboard" className="flex items-center gap-2">
-                  <FaTachometerAlt />
+                  <RxDashboard />
                   <span>Dashboard</span>
                 </a>
               </SidebarMenuButton>
@@ -30,23 +29,23 @@ export function AppSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href="/customers" className="flex items-center gap-2">
-                  <FaUsers />
+                  <FiUsers />
                   <span>Customers</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="/master-data" className="flex items-center gap-2">
-                  <FaDatabase />
+                <Link to={'master-data'} className="flex items-center gap-2">
+                  <FiDatabase />
                   <span>Master Data</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href="/reports" className="flex items-center gap-2">
-                  <FaChartBar />
+                  <FiPieChart />
                   <span>Reports</span>
                 </a>
               </SidebarMenuButton>
