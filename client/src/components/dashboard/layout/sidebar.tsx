@@ -1,58 +1,83 @@
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarMenu,
+    SidebarMenuItem,
+    SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import {
-  RxDashboard,
-} from 'react-icons/rx';
-import { FiUsers, FiDatabase, FiPieChart } from "react-icons/fi";
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@radix-ui/react-collapsible';
 import { Link } from 'react-router';
+import MasterDataSidebarGroup from './masterDataSidebarGroup';
+import { ChartBarIcon, ChevronDown, Database, LayoutDashboard, Users } from 'lucide-react';
 
 export function AppSidebar() {
-  return (
-    <Sidebar side="left" collapsible="icon" className="relative h-full">
-      <SidebarContent className='bg-white'>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/dashboard" className="flex items-center gap-2">
-                  <RxDashboard />
-                  <span>Dashboard</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/customers" className="flex items-center gap-2">
-                  <FiUsers />
-                  <span>Customers</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link to={'master-data'} className="flex items-center gap-2">
-                  <FiDatabase />
-                  <span>Master Data</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/reports" className="flex items-center gap-2">
-                  <FiPieChart />
-                  <span>Reports</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-  );
+    return (
+        <Sidebar side="left" collapsible="icon" className="relative h-full">
+            <SidebarContent className="bg-white">
+                <SidebarGroup>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <a
+                                    href="/dashboard"
+                                    className="flex items-center gap-2"
+                                >
+                                    <LayoutDashboard />
+                                    <span>Dashboard</span>
+                                </a>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <a
+                                    href="/customers"
+                                    className="flex items-center gap-2"
+                                >
+                                    <Users />
+                                    <span>Customers</span>
+                                </a>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <Collapsible className="group/collapsible">
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton asChild>
+                                            <Link
+                                                to={'master-data'}
+                                                className="flex items-center gap-2"
+                                            >
+                                                <Database />
+                                                <span>Master Data</span>
+                                                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <MasterDataSidebarGroup />
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <a
+                                    href="/reports"
+                                    className="flex items-center gap-2"
+                                >
+                                    <ChartBarIcon />
+                                    <span>Reports</span>
+                                </a>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroup>
+            </SidebarContent>
+        </Sidebar>
+    );
 }
