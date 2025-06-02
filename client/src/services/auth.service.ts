@@ -3,6 +3,9 @@ import api from './api.service';
 import type { User } from '@/types/User';
 
 export function AuthService() {
+    const checkIfTokenExists = () => {
+        return localStorage.getItem('token');
+    };
     const login = async ({
         username,
         password,
@@ -53,5 +56,6 @@ export function AuthService() {
         login,
         checkUser,
         removeTokenAndRedirect,
+        checkIfTokenExists,
     };
 }

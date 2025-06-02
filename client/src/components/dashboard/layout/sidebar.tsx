@@ -13,7 +13,13 @@ import {
 } from '@radix-ui/react-collapsible';
 import { Link } from 'react-router';
 import MasterDataSidebarGroup from './masterDataSidebarGroup';
-import { ChartBarIcon, ChevronDown, Database, LayoutDashboard, Users } from 'lucide-react';
+import {
+    ChartBarIcon,
+    ChevronDown,
+    Database,
+    LayoutDashboard,
+    Users,
+} from 'lucide-react';
 
 export function AppSidebar() {
     return (
@@ -23,13 +29,13 @@ export function AppSidebar() {
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <a
-                                    href="/dashboard"
+                                <Link
+                                    to={'/dashboard'}
                                     className="flex items-center gap-2"
                                 >
                                     <LayoutDashboard />
                                     <span>Dashboard</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                         <SidebarMenuItem>
@@ -47,15 +53,10 @@ export function AppSidebar() {
                             <Collapsible className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton asChild>
-                                            <Link
-                                                to={'master-data'}
-                                                className="flex items-center gap-2"
-                                            >
-                                                <Database />
-                                                <span>Master Data</span>
-                                                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                                            </Link>
+                                        <SidebarMenuButton>
+                                            <Database />
+                                            <span>Master Data</span>
+                                            <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
