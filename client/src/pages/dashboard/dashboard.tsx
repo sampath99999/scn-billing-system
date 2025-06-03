@@ -17,7 +17,7 @@ export default function DashboardPage() {
             <Header />
             <div className="flex flex-1 overflow-hidden dashboard-sidebar">
               <AppSidebar />
-              <main className="flex-1 overflow-auto p-4 bg-muted/50">
+              <main className="flex-1 overflow-auto p-4 bg-muted">
                 <Outlet />
               </main>
             </div>

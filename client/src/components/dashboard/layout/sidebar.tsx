@@ -49,22 +49,20 @@ export function AppSidebar() {
                                 </a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                        <SidebarMenuItem>
-                            <Collapsible className="group/collapsible">
-                                <SidebarMenuItem>
-                                    <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton>
-                                            <Database />
-                                            <span>Master Data</span>
-                                            <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                                        </SidebarMenuButton>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent>
-                                        <MasterDataSidebarGroup />
-                                    </CollapsibleContent>
-                                </SidebarMenuItem>
-                            </Collapsible>
-                        </SidebarMenuItem>
+                        <Collapsible className="group/collapsible">
+                            <SidebarMenuItem>
+                                <CollapsibleTrigger asChild>
+                                    <SidebarMenuButton>
+                                        <Database />
+                                        <span>Master Data</span>
+                                        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                                    </SidebarMenuButton>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                    <MasterDataSidebarGroup />
+                                </CollapsibleContent>
+                            </SidebarMenuItem>
+                        </Collapsible>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <a

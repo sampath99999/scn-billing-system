@@ -11,3 +11,10 @@ export const PACKAGE_TYPES = {
     ADD_ON: 'add_on',
     PACKAGE: 'package',
 };
+
+export interface PaginationMetadata {
+    currentPage: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+}

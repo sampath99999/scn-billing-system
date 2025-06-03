@@ -39,7 +39,9 @@ export const packageQuerySchema = z.object({
         })
         .optional(),
     sortBy: z
-        .enum(['name', 'price_per_month', 'createdAt', 'updatedAt'])
+        .enum(['name', 'price_per_month', 'package_type', 'createdAt', 'updatedAt'], {
+            message: 'Sort by must be one of the following: Name, Price per Month, Package Type, Created At, Updated At',
+        })
         .optional(),
     sortOrder: z.enum(['asc', 'desc']).optional(),
 });

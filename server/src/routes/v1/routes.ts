@@ -13,6 +13,6 @@ router.get('/health', (req, res) => {
 });
 
 router.use('/auth', authRouter);
-router.use('/package', PackageRouter);
+router.use('/packages', PackageRouter);
 
 export default router;

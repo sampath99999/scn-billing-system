@@ -17,7 +17,7 @@ PackageRouter.post(
     PackageController.createPackage,
 );
 PackageRouter.get(
-    '/',
+    '/all',
     AuthMiddleware,
     validate(packageQuerySchema),
     PackageController.getAllPackages

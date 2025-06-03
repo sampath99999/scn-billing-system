@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Plus } from 'lucide-react';
 
 export default function PackagesFilters() {
     return (
-        <div className="flex flex-col sm:flex-row gap-3 items-center justify-between p-2 rounded my-2">
+        <div className="flex flex-col sm:flex-row gap-3 items-center justify-between my-3">
             <div className="w-full sm:w-1/3 flex items-center gap-2">
                 <div className="relative w-full sm:w-auto">
                     <Input
@@ -14,7 +15,10 @@ export default function PackagesFilters() {
                 </div>
             </div>
             <div className="flex w-full sm:w-auto gap-2">
-                <Button>Add New Package</Button>
+                <Button size={'sm'}>
+                    <Plus />
+                    Add New
+                </Button>
             </div>
         </div>
     );
