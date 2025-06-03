@@ -6,6 +6,7 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     type SortingState,
+    type RowSelectionState,
 } from '@tanstack/react-table';
 import {
     Table,
@@ -24,9 +25,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { CornerDownLeft } from 'lucide-react';
+import { CornerDownLeft, Trash2 } from 'lucide-react';
 import { PACKAGE_TYPES } from '@/types/Package';
 import { useEffect, useState } from 'react';
+import CreatePackageDrawer from './createPackageDrawer';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -57,6 +59,7 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = useState<SortingState>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [packageTypeFilter, setPackageTypeFilter] = useState<string | undefined>(undefined);
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     const table = useReactTable({
         data,
@@ -65,10 +68,13 @@ export function DataTable<TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
+        onRowSelectionChange: setRowSelection,
+        enableRowSelection: true,
         manualPagination: true,
         manualSorting: true,
         state: {
             sorting,
+            rowSelection,
             pagination: {
                 pageIndex: pagination.currentPage - 1,
                 pageSize: pagination.pageSize,
@@ -92,6 +98,15 @@ export function DataTable<TData, TValue>({
 
     const handlePageSizeChange = (pageSize: number) => {
         onPaginationChange(0, pageSize);
+    };
+
+    const handleDeleteSelected = () => {
+        const selectedRows = table.getSelectedRowModel().rows;
+        const selectedPackages = selectedRows.map(row => row.original);
+        console.log('Delete selected packages:', selectedPackages);
+        // TODO: Implement delete functionality
+        // Reset selection after delete
+        setRowSelection({});
     };
 
     useEffect(() => {
@@ -134,6 +149,19 @@ export function DataTable<TData, TValue>({
                         ))}
                     </SelectContent>
                 </Select>
+
+                {table.getSelectedRowModel().rows.length > 0 && (
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={handleDeleteSelected}
+                        className="ml-auto"
+                    >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete Selected ({table.getSelectedRowModel().rows.length})
+                    </Button>
+                )}
+                <CreatePackageDrawer />
             </div>
             <div className="rounded-md border">
                 <Table>
