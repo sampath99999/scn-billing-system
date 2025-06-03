@@ -7,7 +7,7 @@ import {
 } from "react-router";
 import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard/dashboard';
-import PackagesPage from './pages/dashboard/packages';
+import PackagesPage from './pages/dashboard/packages/packages';
 
 const router = createBrowserRouter([
   {
