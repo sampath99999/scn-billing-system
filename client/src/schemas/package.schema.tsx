@@ -1,5 +1,5 @@
-import { PACKAGE_TYPES } from "@/types/Package";
-import { z } from "zod";
+import { PACKAGE_TYPES } from '@/types/Package';
+import { z } from 'zod';
 
 export const createPackageSchema = z.object({
     name: z
@@ -17,3 +17,5 @@ export const createPackageSchema = z.object({
         .max(10000, 'Price per month must be less than or equal to 10000')
         .int('Price per month must be an integer'),
 });
+
+export type CreatePackageData = z.infer<typeof createPackageSchema>;

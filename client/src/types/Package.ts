@@ -18,5 +18,3 @@ export interface PaginationMetadata {
     totalCount: number;
     totalPages: number;
 }
-
-export const PACKAGE_TYPES_ARRAY: string[] = Object.values(PACKAGE_TYPES);

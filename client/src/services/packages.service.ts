@@ -1,6 +1,7 @@
 // services/package.service.ts
 import type { Package } from '@/types/Package';
 import api from './api.service';
+import type { CreatePackageData } from '@/schemas/package.schema';
 
 export interface GetPackagesOptions {
     searchTerm?: string;
@@ -52,6 +53,11 @@ export default class PackageService {
         const url = `${this.API_BASE_URL}/packages/all${queryString ? `?${queryString}` : ''}`;
 
         const response = await api.get(url);
+        return response.data;
+    }
+
+    static async createPackage(newPackageData: CreatePackageData): Promise<Package> {
+        const response = await api.post(`${this.API_BASE_URL}/packages`, newPackageData);
         return response.data;
     }
 }

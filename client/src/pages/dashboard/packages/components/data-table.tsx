@@ -58,7 +58,9 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [packageTypeFilter, setPackageTypeFilter] = useState<string | undefined>(undefined);
+    const [packageTypeFilter, setPackageTypeFilter] = useState<
+        string | undefined
+    >(undefined);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     const table = useReactTable({
@@ -102,7 +104,7 @@ export function DataTable<TData, TValue>({
 
     const handleDeleteSelected = () => {
         const selectedRows = table.getSelectedRowModel().rows;
-        const selectedPackages = selectedRows.map(row => row.original);
+        const selectedPackages = selectedRows.map((row) => row.original);
         console.log('Delete selected packages:', selectedPackages);
         // TODO: Implement delete functionality
         // Reset selection after delete
@@ -112,7 +114,6 @@ export function DataTable<TData, TValue>({
     useEffect(() => {
         onSortingChange(sorting);
     }, [sorting, onSortingChange]);
-
 
     return (
         <div>
@@ -136,7 +137,10 @@ export function DataTable<TData, TValue>({
                     </div>
                 </div>
 
-                <Select onValueChange={handlePackageTypeFilter} value={packageTypeFilter || 'all'}>
+                <Select
+                    onValueChange={handlePackageTypeFilter}
+                    value={packageTypeFilter || 'all'}
+                >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Filter by Package Type" />
                     </SelectTrigger>
@@ -144,24 +148,27 @@ export function DataTable<TData, TValue>({
                         <SelectItem value="all">All Package Types</SelectItem>
                         {Object.values(PACKAGE_TYPES).map((type) => (
                             <SelectItem key={type} value={type}>
-                                {type.charAt(0).toUpperCase() + type.slice(1).replace('_', ' ')}
+                                {type.charAt(0).toUpperCase() +
+                                    type.slice(1).replace('_', ' ')}
                             </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
 
-                {table.getSelectedRowModel().rows.length > 0 && (
-                    <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={handleDeleteSelected}
-                        className="ml-auto"
-                    >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Delete Selected ({table.getSelectedRowModel().rows.length})
-                    </Button>
-                )}
-                <CreatePackageDrawer />
+                <div className="ms-auto flex items-center gap-2">
+                    {table.getSelectedRowModel().rows.length > 0 && (
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={handleDeleteSelected}
+                        >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete Selected (
+                            {table.getSelectedRowModel().rows.length})
+                        </Button>
+                    )}
+                    <CreatePackageDrawer />
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -187,7 +194,10 @@ export function DataTable<TData, TValue>({
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
                                     Loading packages...
                                 </TableCell>
                             </TableRow>
@@ -195,7 +205,9 @@ export function DataTable<TData, TValue>({
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
-                                    data-state={row.getIsSelected() && 'selected'}
+                                    data-state={
+                                        row.getIsSelected() && 'selected'
+                                    }
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
@@ -222,13 +234,16 @@ export function DataTable<TData, TValue>({
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <div className="flex-1 text-sm text-muted-foreground">
-                    Page {pagination.currentPage} of {pagination.totalPages} ({pagination.totalCount} packages)
+                    Page {pagination.currentPage} of {pagination.totalPages} (
+                    {pagination.totalCount} packages)
                 </div>
                 <div className="space-x-2">
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handlePageChange(pagination.currentPage - 1)}
+                        onClick={() =>
+                            handlePageChange(pagination.currentPage - 1)
+                        }
                         disabled={pagination.currentPage <= 1}
                     >
                         Previous
@@ -236,15 +251,21 @@ export function DataTable<TData, TValue>({
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handlePageChange(pagination.currentPage + 1)}
-                        disabled={pagination.currentPage >= pagination.totalPages}
+                        onClick={() =>
+                            handlePageChange(pagination.currentPage + 1)
+                        }
+                        disabled={
+                            pagination.currentPage >= pagination.totalPages
+                        }
                     >
                         Next
                     </Button>
                 </div>
                 <Select
                     value={pagination.pageSize.toString()}
-                    onValueChange={(value) => handlePageSizeChange(Number(value))}
+                    onValueChange={(value) =>
+                        handlePageSizeChange(Number(value))
+                    }
                 >
                     <SelectTrigger className="w-[100px]">
                         <SelectValue placeholder="Page Size" />
