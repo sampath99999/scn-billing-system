@@ -1,5 +1,5 @@
-import { Header } from '@/components/dashboard/layout/header';
-import { AppSidebar } from '@/components/dashboard/layout/sidebar';
+import { Header } from '@/pages/dashboard/layout/header';
+import { AppSidebar } from '@/pages/dashboard/layout/sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { UserDetailsContext } from '@/contexts/UserDetailsContext';
 import { useUserDetails } from '@/hooks/userDetails.hook';
