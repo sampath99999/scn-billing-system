@@ -1,7 +1,7 @@
-import { PackageFilterOptions, PackageSortOptions } from '#types/Package.js';
+import { AuthBodyAndPackageId, NewPackageType, PackageFilterOptions, PackageSortOptions } from '#types/Package.js';
 import catchAsync from '#helpers/catchAsync.helper.js';
 import PackageService from '#services/packages.service.js';
-import { FiltersAndSort } from '#types/Common.js';
+import { FiltersAndSort, ObjectId } from '#types/Common.js';
 import { NewPackageData } from '#types/Package.js';
 import { RequestWithUserAndBody } from '#utils/jwt.js';
 import { Request, Response } from 'express';
@@ -55,16 +55,40 @@ export const PackageController = {
 
     updatePackage: catchAsync(async (req: Request, res: Response) => {
         const packageId = (req.params.id as unknown) as mongoose.Types.ObjectId;
-        const newPackageData = (req as RequestWithUserAndBody<NewPackageData>)
+        const newPackageData = (req as NewPackageType)
             .body;
         const result = await PackageService.updatePackage(
             packageId,
             newPackageData,
-            (req as RequestWithUserAndBody<NewPackageData>).user.company_id,
+            (req as NewPackageType).user.company_id,
         );
         res.status(200).json({
             message: 'Package updated successfully',
             package: result,
+        });
+    }),
+
+    deletePackage: catchAsync(async (req: Request, res: Response) => {
+        const packageId = (req.params.id as unknown) as ObjectId;
+        const result = await PackageService.deletePackage(
+            packageId,
+            (req as NewPackageType).user.company_id,
+        );
+        res.status(200).json({
+            message: 'Package deleted successfully',
+            package: result,
+        });
+    }),
+
+    deleteMultiplePackages: catchAsync(async (req: Request, res: Response) => {
+        const { packageIds } = (req as AuthBodyAndPackageId).body;
+        const result = await PackageService.deleteMultiplePackages(
+            packageIds,
+            (req as AuthBodyAndPackageId).user.company_id,
+        );
+        res.status(200).json({
+            message: 'Packages deleted successfully',
+            packages: result,
         });
     }),
 };

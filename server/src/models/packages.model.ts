@@ -6,6 +6,8 @@ export interface PackageInterface extends Document {
     package_type: string;
     price_per_month: number;
     company_id: Types.ObjectId;
+    is_deleted?: boolean;
+    deleted_at?: Date;
 }
 const PackageSchema = new Schema<PackageInterface>(
     {
@@ -27,6 +29,14 @@ const PackageSchema = new Schema<PackageInterface>(
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'companies',
+        },
+        is_deleted: {
+            type: Boolean,
+            default: false,
+        },
+        deleted_at: {
+            type: Date,
+            default: null,
         },
     },
     {

@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export interface FiltersAndSort<FilterOptions, SortOptions> {
     searchTerm?: string;
     filters?: FilterOptions;
@@ -6,3 +8,5 @@ export interface FiltersAndSort<FilterOptions, SortOptions> {
     sortBy?: SortOptions;
     sortOrder?: 'asc' | 'desc';
 }
+
+export type ObjectId = mongoose.Types.ObjectId;

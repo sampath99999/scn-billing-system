@@ -1,3 +1,6 @@
+import { RequestWithUserAndBody } from "#utils/jwt.js";
+import mongoose from "mongoose";
+
 export interface NewPackageData {
     name: string;
     package_type: string;
@@ -21,3 +24,6 @@ export interface PaginationMetadata {
     totalCount: number;
     totalPages: number;
 }
+
+export type AuthBodyAndPackageId = RequestWithUserAndBody<{ packageIds: mongoose.Types.ObjectId[] }>;
+export type NewPackageType = RequestWithUserAndBody<NewPackageData>;

@@ -105,6 +105,46 @@ const PackageService = {
             { new: true },
         );
         return updatedPackage;
+    },
+
+    deletePackage: async (packageId: mongoose.Types.ObjectId, companyId: mongoose.Types.ObjectId) => {
+        const packageExists = await Package.exists({
+            _id: packageId,
+            company_id: companyId,
+        });
+        if (!packageExists) {
+            throw new AppError('Package not found', 404);
+        }
+
+        await Package.findByIdAndUpdate(
+            packageId,
+            {
+                is_deleted: true,
+                deleted_at: new Date(),
+            },
+            { new: true },
+        );
+        return true;
+    },
+
+    deleteMultiplePackages: async (packageIds: mongoose.Types.ObjectId[], companyId: mongoose.Types.ObjectId) => {
+        if (packageIds.length === 0) {
+            throw new AppError('No package IDs provided', 400);
+        }
+        const packages = await Package.updateMany(
+            {
+                _id: { $in: packageIds },
+                company_id: companyId,
+            },
+            {
+                is_deleted: true,
+                deleted_at: new Date(),
+            },
+        );
+        if (packages.modifiedCount === 0) {
+            throw new AppError('No packages found to delete', 404);
+        }
+        return packages;
     }
 };
 
