@@ -1,4 +1,3 @@
-// Columns:
 import type { Package } from '@/types/Package';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
@@ -9,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
-import SortTableHeader from './sortTableHeader';
+import SortableHeader from '@/components/common/sortable-header';
 import { Checkbox } from '@/components/ui/checkbox';
 
 function editPackage(packageData: Package) {
@@ -22,7 +21,7 @@ function deletePackage(packageData: Package) {
     console.log('Delete package:', packageData);
 }
 
-export const columns: ColumnDef<Package>[] = [
+export const packageColumns: ColumnDef<Package>[] = [
     {
         id: 'select',
         header: ({ table }) => (
@@ -49,7 +48,7 @@ export const columns: ColumnDef<Package>[] = [
         accessorKey: 'name',
         header: ({ column }) => {
             return (
-                <SortTableHeader
+                <SortableHeader
                     column={column}
                     header="Name"
                 />
@@ -60,7 +59,7 @@ export const columns: ColumnDef<Package>[] = [
         accessorKey: 'package_type',
         header: ({ column }) => {
             return (
-                <SortTableHeader
+                <SortableHeader
                     column={column}
                     header="Package Type"
                 />
@@ -71,7 +70,7 @@ export const columns: ColumnDef<Package>[] = [
         accessorKey: 'price_per_month',
         header: ({ column }) => {
             return (
-                <SortTableHeader
+                <SortableHeader
                     column={column}
                     header="Price per Month"
                 />
@@ -90,7 +89,7 @@ export const columns: ColumnDef<Package>[] = [
         accessorKey: 'updatedAt',
         header: ({ column }) => {
             return (
-                <SortTableHeader
+                <SortableHeader
                     column={column}
                     header="Last Updated At"
                 />

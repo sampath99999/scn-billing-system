@@ -2,11 +2,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import PackagesBreadcrumb from './components/breadcrumb';
 import type { Package, PaginationMetadata } from '@/types/Package';
+import { PACKAGE_TYPES } from '@/types/Package';
 import PackageService from '@/services/packages.service';
 import { toast } from 'sonner';
 import type { AxiosError } from 'axios';
-import { DataTable } from './components/data-table';
-import { columns } from './components/columns';
+import { DataTable } from '@/components/common/data-table';
+import CreatePackageDrawer from './components/createPackageDrawer';
+import { packageColumns } from './components/package-columns';
 
 export default function PackagesPage() {
     const [packages, setPackages] = useState<Package[]>([]);
@@ -64,8 +66,7 @@ export default function PackagesPage() {
 
     const handlePaginationChange = (pageIndex: number, newPageSize: number) => {
         setCurrentPage(pageIndex + 1); // Convert 0-indexed to 1-indexed
-        setPageSize(newPageSize);
-    };
+        setPageSize(newPageSize);    };
 
     const handleSortingChange = (sortingState: unknown) => {
         if (Array.isArray(sortingState) && sortingState.length > 0) {
@@ -79,6 +80,23 @@ export default function PackagesPage() {
         setCurrentPage(1);
     };
 
+    const handleDeleteSelected = (selectedPackages: Package[]) => {
+        console.log('Delete selected packages:', selectedPackages);
+        // TODO: Implement delete functionality
+        toast.info(`Selected ${selectedPackages.length} packages for deletion`);
+        // After successful delete, refresh the data
+        fetchPackages();
+    };
+
+    // Prepare filter options for the package type filter
+    const filterOptions = {
+        name: 'Package Type',
+        options: Object.entries(PACKAGE_TYPES).map(([key, value]) => ({
+            value,
+            label: key.charAt(0).toUpperCase() + key.slice(1).toLowerCase().replace('_', ' '),
+        })),
+    };
+
     return (
         <div className="bg-white p-3 rounded">
             <PackagesBreadcrumb />
@@ -90,14 +108,18 @@ export default function PackagesPage() {
                 </p>
             </div>
             <DataTable
-                columns={columns}
+                columns={packageColumns}
                 data={packages}
                 onSearchTermChange={handleSearchTermChange}
-                onPackageTypeFilterChange={handlePackageTypeFilterChange}
+                onFilterChange={handlePackageTypeFilterChange}
                 onPaginationChange={handlePaginationChange}
                 onSortingChange={handleSortingChange}
                 pagination={pagination}
                 loading={loading}
+                filterOptions={filterOptions}
+                searchPlaceholder="Search by name or price..."
+                onDeleteSelected={handleDeleteSelected}
+                createComponent={<CreatePackageDrawer />}
             />
         </div>
     );

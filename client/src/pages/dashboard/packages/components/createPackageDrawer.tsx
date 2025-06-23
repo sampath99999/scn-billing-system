@@ -13,7 +13,7 @@ export default function CreatePackageDrawer() {
     return (
         <div>
             <Drawer direction="right">
-                <DrawerTrigger>
+                <DrawerTrigger asChild>
                     <Button>+ Add New</Button>
                 </DrawerTrigger>
                 <DrawerContent>

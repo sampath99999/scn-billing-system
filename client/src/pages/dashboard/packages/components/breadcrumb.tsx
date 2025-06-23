@@ -1,31 +1,19 @@
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { Link } from 'react-router';
+import PageBreadcrumb from '@/components/common/page-breadcrumb';
 
 export default function PackagesBreadcrumb() {
-    return (
-        <Breadcrumb>
-            <BreadcrumbList>
-                <BreadcrumbItem>
-                    <BreadcrumbLink asChild>
-                        <Link to="/dashboard">Dashboard</Link>
-                    </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbPage>Master Data</BreadcrumbPage>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbPage>Packages</BreadcrumbPage>
-                </BreadcrumbItem>
-            </BreadcrumbList>
-        </Breadcrumb>
-    );
+    const breadcrumbItems = [
+        {
+            label: 'Dashboard',
+            href: '/dashboard',
+        },
+        {
+            label: 'Master Data',
+        },
+        {
+            label: 'Packages',
+            isCurrentPage: true,
+        },
+    ];
+
+    return <PageBreadcrumb items={breadcrumbItems} />;
 }

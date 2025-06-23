@@ -1,8 +1,12 @@
-import type { Package } from "@/types/Package";
 import type { Column } from "@tanstack/react-table";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
-export default function SortTableHeader({column, header}: {column: Column<Package>, header: string}) {
+interface SortableHeaderProps<T> {
+    column: Column<T>;
+    header: string;
+}
+
+export default function SortableHeader<T>({column, header}: SortableHeaderProps<T>) {
     const sortDirection = column.getIsSorted();
 
     return (
