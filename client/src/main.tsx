@@ -21,10 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'master-data',
         children: [
-          {
-            path: 'packages',
-            Component: PackagesPage
-          },
+        //   {
+        //     path: 'packages',
+        //     Component: PackagesPage
+        //   },
           // {
           //   path: 'streets',
           //   Component: StreetsPage

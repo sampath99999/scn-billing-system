@@ -54,10 +54,21 @@ export default class PackageService {
 
         const response = await api.get(url);
         return response.data;
+    }    static async createPackage(newPackageData: CreatePackageData): Promise<Package> {
+        const response = await api.post(`${this.API_BASE_URL}/packages`, newPackageData);
+        return response.data.data;
     }
 
-    static async createPackage(newPackageData: CreatePackageData): Promise<Package> {
-        const response = await api.post(`${this.API_BASE_URL}/packages`, newPackageData);
-        return response.data;
+    static async updatePackage(id: string, packageData: Partial<CreatePackageData>): Promise<Package> {
+        const response = await api.put(`${this.API_BASE_URL}/packages/${id}`, packageData);
+        return response.data.data;
+    }
+
+    static async deletePackage(id: string): Promise<void> {
+        await api.delete(`${this.API_BASE_URL}/packages/${id}`);
+    }
+
+    static async deleteMultiplePackages(ids: string[]): Promise<void> {
+        await api.post(`${this.API_BASE_URL}/packages/bulk-delete`, { ids });
     }
 }
