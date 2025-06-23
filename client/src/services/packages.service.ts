@@ -1,32 +1,9 @@
 // services/package.service.ts
-import type { Package } from '@/types/Package';
-import api from './api.service';
+import type { GetPackagesOptions, GetPackagesResponse, Package } from '@/types/Package';
+import { GET, POST, PUT, DELETE, PATCH } from './api.service';
 import type { CreatePackageData } from '@/schemas/package.schema';
 
-export interface GetPackagesOptions {
-    searchTerm?: string;
-    packageType?: string;
-    page?: number;
-    pageSize?: number;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
-}
-
-export interface PackagePaginationMetadata {
-    currentPage: number;
-    pageSize: number;
-    totalCount: number;
-    totalPages: number;
-}
-
-export interface GetPackagesResponse {
-    message: string;
-    data: Package[];
-    pagination: PackagePaginationMetadata;
-}
-
 export default class PackageService {
-    static API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     static async getPackages(options: GetPackagesOptions = {}): Promise<GetPackagesResponse> {
         const params = new URLSearchParams();
 
@@ -50,25 +27,24 @@ export default class PackageService {
         }
 
         const queryString = params.toString();
-        const url = `${this.API_BASE_URL}/packages/all${queryString ? `?${queryString}` : ''}`;
+        const url = `/packages/all${queryString ? `?${queryString}` : ''}`;
 
-        const response = await api.get(url);
-        return response.data;
-    }    static async createPackage(newPackageData: CreatePackageData): Promise<Package> {
-        const response = await api.post(`${this.API_BASE_URL}/packages`, newPackageData);
-        return response.data.data;
+        return GET<GetPackagesResponse>(url);
+    }
+
+    static async createPackage(newPackageData: CreatePackageData): Promise<Package> {
+        return POST<Package, CreatePackageData>('/packages', newPackageData);
     }
 
     static async updatePackage(id: string, packageData: Partial<CreatePackageData>): Promise<Package> {
-        const response = await api.put(`${this.API_BASE_URL}/packages/${id}`, packageData);
-        return response.data.data;
+        return PATCH<Package, Partial<CreatePackageData>>(`/packages/${id}`, packageData);
     }
 
     static async deletePackage(id: string): Promise<void> {
-        await api.delete(`${this.API_BASE_URL}/packages/${id}`);
+        return DELETE<void>(`/packages/${id}`);
     }
 
-    static async deleteMultiplePackages(ids: string[]): Promise<void> {
-        await api.post(`${this.API_BASE_URL}/packages/bulk-delete`, { ids });
+    static async deleteMultiplePackages(packageIds: string[]): Promise<void> {
+        return POST<void, { packageIds: string[] }>('/packages/bulk-delete', { packageIds });
     }
 }

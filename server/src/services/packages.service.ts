@@ -24,6 +24,7 @@ const PackageService = {
             name,
             company_id: companyId,
             _id: { $ne: exceptId },
+            is_deleted: false,
         });
         if (packageExists) {
             throw new AppError(
@@ -41,7 +42,7 @@ const PackageService = {
         const sortBy = data.body.sortBy ?? 'name';
         const sortOrder = data.body.sortOrder ?? 'asc';
 
-        const query: Record<string, unknown> = { company_id: data.user.company_id };
+        const query: Record<string, unknown> = { company_id: data.user.company_id, is_deleted: false };
 
         if (searchTerm) {
             query.$or = [
@@ -87,6 +88,7 @@ const PackageService = {
         const packageExists = await Package.exists({
             _id: packageId,
             company_id: companyId,
+            is_deleted: false,
         });
         if (!packageExists) {
             throw new AppError('Package not found', 404);
@@ -111,6 +113,7 @@ const PackageService = {
         const packageExists = await Package.exists({
             _id: packageId,
             company_id: companyId,
+            is_deleted: false,
         });
         if (!packageExists) {
             throw new AppError('Package not found', 404);
@@ -135,6 +138,7 @@ const PackageService = {
             {
                 _id: { $in: packageIds },
                 company_id: companyId,
+                is_deleted: false,
             },
             {
                 is_deleted: true,

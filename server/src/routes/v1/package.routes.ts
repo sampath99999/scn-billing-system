@@ -29,5 +29,17 @@ PackageRouter.patch(
     validate(createPackageSchema),
     PackageController.updatePackage,
 );
+PackageRouter.delete(
+    '/:id',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    PackageController.deletePackage,
+);
+PackageRouter.post(
+    '/bulk-delete',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    PackageController.deleteMultiplePackages,
+)
 
 export default PackageRouter;

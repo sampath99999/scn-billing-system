@@ -18,3 +18,25 @@ export interface PaginationMetadata {
     totalCount: number;
     totalPages: number;
 }
+
+export interface GetPackagesOptions {
+    searchTerm?: string;
+    packageType?: string;
+    page?: number;
+    pageSize?: number;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+}
+
+export interface PackagePaginationMetadata {
+    currentPage: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+}
+
+export interface GetPackagesResponse {
+    message: string;
+    data: Package[];
+    pagination: PackagePaginationMetadata;
+}
