@@ -65,9 +65,10 @@ export function AddEditPackageForm({ packageData, onSave, onCancel }: AddEditPac
         toast.success('Package created successfully');
       }
       onSave();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to save package:', error);
-      toast.error(`Failed to ${isEditing ? 'update' : 'create'} package. Please try again.`);
+      const message = (error as Error)?.message ?? `Failed to ${isEditing ? 'update' : 'create'} package. Please try again.`;
+      toast.error(message);
     }
   };
 

@@ -6,14 +6,14 @@ import { RequestWithUserAndBody } from '#utils/jwt.js';
 import mongoose from 'mongoose';
 
 const PackageService = {
-    createPackage: async (packageData: NewPackageData, companyId: mongoose.Types.ObjectId) => {
+    createPackage: async (packageData: NewPackageData) => {
         const { name, package_type, price_per_month } = packageData;
-        await PackageService.checkPackageExists(name, companyId);
+        await PackageService.checkPackageExists(name, packageData.company_id);
         const newPackage = await Package.create({
             name,
             package_type,
             price_per_month,
-            company_id: companyId,
+            company_id: packageData.company_id,
         });
 
         return newPackage;

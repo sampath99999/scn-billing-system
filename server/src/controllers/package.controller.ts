@@ -2,18 +2,17 @@ import { AuthBodyAndPackageId, NewPackageType, PackageFilterOptions, PackageSort
 import catchAsync from '#helpers/catchAsync.helper.js';
 import PackageService from '#services/packages.service.js';
 import { FiltersAndSort, ObjectId } from '#types/Common.js';
-import { NewPackageData } from '#types/Package.js';
 import { RequestWithUserAndBody } from '#utils/jwt.js';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
 export const PackageController = {
     createPackage: catchAsync(async (req: Request, res: Response) => {
-        const newPackageData = (req as RequestWithUserAndBody<NewPackageData>)
+        const newPackageData = (req as NewPackageType)
             .body;
+        newPackageData.company_id = (req as NewPackageType).user.company_id;
         const result = await PackageService.createPackage(
             newPackageData,
-            (req as RequestWithUserAndBody<NewPackageData>).user.company_id,
         );
         res.status(201).json({
             message: 'Package created successfully',
@@ -22,10 +21,8 @@ export const PackageController = {
     }),
 
     getAllPackages: catchAsync(async (req: Request, res: Response) => {
-        // Extract query parameters and convert to proper types
         const filters: PackageFilterOptions = {};
 
-        // Handle package_type filter
         if (req.query.package_type) {
             filters.package_type = req.query.package_type as string;
         }
@@ -39,7 +36,6 @@ export const PackageController = {
             sortOrder: req.query.sortOrder as 'asc' | 'desc',
         };
 
-        // Create request object with user and query data
         const requestWithData = {
             ...req,
             body: queryData,

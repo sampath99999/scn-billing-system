@@ -5,6 +5,7 @@ export interface NewPackageData {
     name: string;
     package_type: string;
     price_per_month: number;
+    company_id: mongoose.Types.ObjectId;
 }
 
 export const PACKAGE_TYPES = {

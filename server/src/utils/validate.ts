@@ -5,7 +5,6 @@ import { Request, Response, NextFunction } from 'express';
 export default function validate(schema: Schema) {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log(req.body);
             await schema.parseAsync({
                 ...req.body,
                 ...req.query,
