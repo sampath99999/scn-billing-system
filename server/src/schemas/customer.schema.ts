@@ -39,9 +39,7 @@ export const createCustomerSchema = z.object({
     .number({ message: 'Old due must be a number' })
     .min(0, 'Old due must be greater than or equal to 0')
     .default(0),
-  is_active: z
-    .boolean()
-    .default(false),
+  // Removed is_active - will default to false (pending approval)
 });
 
 export const updateCustomerSchema = createCustomerSchema
@@ -50,9 +48,45 @@ export const updateCustomerSchema = createCustomerSchema
     message: 'At least one field must be updated',
   });
 
+export const customerQuerySchema = z.object({
+  searchTerm: z.string().optional(),
+  is_active: z
+    .string()
+    .transform((val) => val === 'true')
+    .optional(),
+  has_due: z
+    .string()
+    .transform((val) => val === 'true')
+    .optional(),
+  page: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => val > 0, { message: 'Page must be greater than 0' })
+    .optional(),
+  pageSize: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => val > 0 && val <= 100, {
+      message: 'Page size must be between 1 and 100',
+    })
+    .optional(),
+  sortBy: z
+    .enum(['first_name', 'last_name', 'phone', 'address', 'box_no', 'old_due', 'createdAt', 'updatedAt'], {
+      message: 'Sort by must be one of the following: first_name, last_name, phone, address, box_no, old_due, createdAt, updatedAt',
+    })
+    .optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+});
+
+export const updateCustomerStatusSchema = z.object({
+  is_active: z.boolean({ message: 'is_active must be a boolean' }),
+});
+
 const customerSchema = {
   createCustomerSchema,
   updateCustomerSchema,
+  customerQuerySchema,
+  updateCustomerStatusSchema,
 };
 
 export default customerSchema;

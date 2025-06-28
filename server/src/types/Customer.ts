@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { RequestWithUserAndBody } from "#utils/jwt.js";
 
 export interface NewCustomerData {
     first_name: string;
@@ -46,7 +47,26 @@ export interface CustomerResponseData {
     updatedAt: Date;
 }
 
+export interface CustomerFilterOptions {
+    is_active?: boolean;
+    has_due?: boolean;
+}
+
+export type CustomerSortOptions =
+    | 'first_name'
+    | 'last_name'
+    | 'phone'
+    | 'address'
+    | 'box_no'
+    | 'old_due'
+    | 'createdAt'
+    | 'updatedAt';
+
 export const CUSTOMER_STATUS = {
     ACTIVE: true,
     INACTIVE: false,
 };
+
+export type NewCustomerType = RequestWithUserAndBody<NewCustomerData>;
+export type UpdateCustomerType = RequestWithUserAndBody<UpdateCustomerData>;
+export type AuthBodyAndCustomerId = RequestWithUserAndBody<{ customerIds: mongoose.Types.ObjectId[] }>;
