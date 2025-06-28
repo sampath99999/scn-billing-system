@@ -1,6 +1,6 @@
 // services/package.service.ts
 import type { GetPackagesOptions, GetPackagesResponse, Package } from '@/types/Package';
-import { GET, POST, PUT, DELETE, PATCH } from './api.service';
+import { GET, POST, DELETE, PATCH } from './api.service';
 import type { CreatePackageData } from '@/schemas/package.schema';
 
 export default class PackageService {

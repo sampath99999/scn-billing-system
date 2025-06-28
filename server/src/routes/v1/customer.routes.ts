@@ -25,6 +25,36 @@ CustomerRouter.get(
     CustomerController.getAllCustomers
 );
 
+// Get pending customers for approval (Admin only)
+CustomerRouter.get(
+    '/pending-approval',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    CustomerController.getPendingCustomers,
+);
+
+// Get customers by status (approved/pending approval)
+CustomerRouter.get(
+    '/status/filter',
+    AuthMiddleware,
+    CustomerController.getCustomersByStatus,
+);
+
+// Get customers with due amounts
+CustomerRouter.get(
+    '/due/filter',
+    AuthMiddleware,
+    CustomerController.getCustomersWithDue,
+);
+
+// Bulk delete customers (Admin only)
+CustomerRouter.post(
+    '/bulk-delete',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    CustomerController.deleteMultipleCustomers,
+);
+
 // Get customer by ID
 CustomerRouter.get(
     '/:id',
@@ -47,36 +77,6 @@ CustomerRouter.delete(
     AuthMiddleware,
     IsAdminMiddleware,
     CustomerController.deleteCustomer,
-);
-
-// Bulk delete customers (Admin only)
-CustomerRouter.post(
-    '/bulk-delete',
-    AuthMiddleware,
-    IsAdminMiddleware,
-    CustomerController.deleteMultipleCustomers,
-);
-
-// Get customers by status (approved/pending approval)
-CustomerRouter.get(
-    '/status/filter',
-    AuthMiddleware,
-    CustomerController.getCustomersByStatus,
-);
-
-// Get customers with due amounts
-CustomerRouter.get(
-    '/due/filter',
-    AuthMiddleware,
-    CustomerController.getCustomersWithDue,
-);
-
-// Get pending customers for approval (Admin only)
-CustomerRouter.get(
-    '/pending-approval',
-    AuthMiddleware,
-    IsAdminMiddleware,
-    CustomerController.getPendingCustomers,
 );
 
 // Approve customer (Admin only)
