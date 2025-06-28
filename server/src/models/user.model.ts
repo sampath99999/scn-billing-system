@@ -9,6 +9,8 @@ export interface UserInterface extends Document {
     user_type: number;
     company_id: mongoose.Types.ObjectId;
     is_active: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const UserSchema = new Schema<UserInterface>(

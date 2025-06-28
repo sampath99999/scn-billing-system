@@ -13,6 +13,11 @@ export interface CustomerInterface extends Document {
     old_due: number;
     company_id: mongoose.Types.ObjectId;
     is_active: boolean;
+    is_deleted: boolean;
+    deleted_at?: Date | null;
+    deleted_by?: mongoose.Types.ObjectId | null;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const CustomerSchema = new Schema<CustomerInterface>(
@@ -65,6 +70,20 @@ const CustomerSchema = new Schema<CustomerInterface>(
             default: false,
             required: true,
         },
+        is_deleted: {
+            type: Boolean,
+            default: false,
+            required: true,
+        },
+        deleted_at: {
+            type: Date,
+            default: null,
+        },
+        deleted_by: {
+            type: Schema.Types.ObjectId,
+            ref: 'users',
+            default: null,
+        }
     },
     {
         timestamps: true,

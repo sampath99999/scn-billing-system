@@ -7,6 +7,8 @@ export interface CompanyInterface extends Document {
     email?: string;
     owner_name: string;
     is_active: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const CompanySchema = new Schema<CompanyInterface>(

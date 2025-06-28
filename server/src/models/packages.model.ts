@@ -8,6 +8,8 @@ export interface PackageInterface extends Document {
     company_id: Types.ObjectId;
     is_deleted?: boolean;
     deleted_at?: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 const PackageSchema = new Schema<PackageInterface>(
     {
