@@ -14,6 +14,7 @@ describe('Package Service Tests', () => {
         name: string;
         package_type: string;
         price_per_month: number;
+        company_id: mongoose.Types.ObjectId;
     };
 
     // Helper function to create properly typed mock requests
@@ -47,6 +48,7 @@ describe('Package Service Tests', () => {
             name: 'Test Package',
             package_type: PACKAGE_TYPES.PACKAGE,
             price_per_month: 999,
+            company_id: company._id,
         };
     });
 
@@ -61,7 +63,6 @@ describe('Package Service Tests', () => {
         it('should successfully create a new package', async () => {
             const newPackage = await PackageService.createPackage(
                 testPackageData,
-                company._id,
             );
             expect(newPackage).toHaveProperty('_id');
             expect(newPackage.name).toBe(testPackageData.name);
@@ -72,7 +73,7 @@ describe('Package Service Tests', () => {
 
         it('should fail when creating a package with a duplicate name in the same company', async () => {
             await expect(
-                PackageService.createPackage(testPackageData, company._id),
+                PackageService.createPackage(testPackageData),
             ).rejects.toThrow(/already exists/);
         });
     });
@@ -101,8 +102,8 @@ describe('Package Service Tests', () => {
                     name: 'Test Add-on',
                     package_type: PACKAGE_TYPES.ADD_ON,
                     price_per_month: 199,
+                    company_id: company._id,
                 },
-                company._id,
             );
 
             const mockRequest = createMockRequest(company._id, {
@@ -167,6 +168,7 @@ describe('Package Service Tests', () => {
                 name: 'Updated Package Name',
                 package_type: PACKAGE_TYPES.ADD_ON,
                 price_per_month: 1499,
+                company_id: company._id,
             };
 
             const updatedPackage = await PackageService.updatePackage(
@@ -187,8 +189,8 @@ describe('Package Service Tests', () => {
                     name: 'Another Package',
                     package_type: PACKAGE_TYPES.PACKAGE,
                     price_per_month: 799,
+                    company_id: company._id,
                 },
-                company._id,
             );
             await expect(
                 PackageService.updatePackage(
@@ -197,6 +199,7 @@ describe('Package Service Tests', () => {
                         name: 'Updated Package Name',
                         package_type: PACKAGE_TYPES.PACKAGE,
                         price_per_month: 799,
+                        company_id: company._id,
                     },
                     company._id,
                 )
@@ -216,25 +219,24 @@ describe('Package Service Tests', () => {
         });
 
         describe('Sort Packages', () => {
-            it('should sort packages by name in ascending order', async () => {
-                // Create packages with names that will sort alphabetically
-                await PackageService.createPackage(
-                    {
-                        name: 'A Package',
-                        package_type: PACKAGE_TYPES.PACKAGE,
-                        price_per_month: 599,
-                    },
-                    company._id,
-                );
+            it('should sort packages by name in ascending order', async () => {            // Create packages with names that will sort alphabetically
+            await PackageService.createPackage(
+                {
+                    name: 'A Package',
+                    package_type: PACKAGE_TYPES.PACKAGE,
+                    price_per_month: 599,
+                    company_id: company._id,
+                },
+            );
 
-                await PackageService.createPackage(
-                    {
-                        name: 'Z Package',
-                        package_type: PACKAGE_TYPES.PACKAGE,
-                        price_per_month: 699,
-                    },
-                    company._id,
-                );
+            await PackageService.createPackage(
+                {
+                    name: 'Z Package',
+                    package_type: PACKAGE_TYPES.PACKAGE,
+                    price_per_month: 699,
+                    company_id: company._id,
+                },
+            );
 
                 const mockRequest = createMockRequest(company._id, {
                     page: 1,
