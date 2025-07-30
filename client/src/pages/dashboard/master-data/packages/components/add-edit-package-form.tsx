@@ -100,7 +100,6 @@ export function AddEditPackageForm({ packageData, onSave, onCancel }: AddEditPac
               <FormLabel>Package Type</FormLabel>
               <Select
                 onValueChange={field.onChange}
-                defaultValue={field.value}
                 value={field.value}
               >
                 <FormControl>
