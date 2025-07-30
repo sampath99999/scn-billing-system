@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import LoginPage from './pages/login/page';
 import DashboardPage from './pages/dashboard/dashboard';
 import PackagesPage from './pages/dashboard/master-data/packages/page';
+import AccessoriesPage from './pages/dashboard/master-data/accessories/page';
 
 const router = createBrowserRouter([
     {
@@ -22,13 +23,13 @@ const router = createBrowserRouter([
                         path: 'packages',
                         Component: PackagesPage
                     },
+                    {
+                        path: 'accessories',
+                        Component: AccessoriesPage
+                    },
                     // {
                     //   path: 'streets',
                     //   Component: StreetsPage
-                    // },
-                    // {
-                    //   path: 'accessories',
-                    //   Component: AccessoriesPage
                     // },
                     // {
                     //   path: 'users',
