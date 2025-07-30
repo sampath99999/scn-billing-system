@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { Plus, Search, Trash2 } from 'lucide-react';
+import PageBreadcrumb from '@/components/common/page-breadcrumb';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
   Dialog,
   DialogContent,
@@ -17,17 +23,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { MasterDataPageLayout } from '@/components/common/master-data-page-layout';
 import type { Accessory, GetAccessoriesOptions } from '@/types/Accessory';
 import AccessoryService from '@/services/accessory.service';
 import { AccessoriesTable } from './components/accessories-table';
 import { AddEditAccessoryForm } from './components/add-edit-accessory-form';
-
-const breadcrumbItems = [
-  { label: 'Dashboard', href: '/dashboard' },
-  { label: 'Master Data', href: '/dashboard/master-data' },
-  { label: 'Accessories', isCurrentPage: true },
-];
 
 export default function AccessoriesPage() {
   // State for accessories data
@@ -179,34 +178,69 @@ export default function AccessoriesPage() {
   };
 
   return (
-    <MasterDataPageLayout
-      title="Accessories"
-      description="Manage your accessories and their costs."
-      breadcrumbItems={breadcrumbItems}
-      selectedCount={selectedAccessories.length}
-      onAdd={handleAddAccessory}
-      onBulkDelete={handleBulkDelete}
-      onSearch={handleSearch}
-      cardTitle="Accessories"
-      cardDescription="A list of all accessories in your system."
-      addButtonText="Add Accessory"
-      searchPlaceholder="Search accessories..."
-    >
-      <AccessoriesTable
-        accessories={accessories}
-        loading={loading}
-        selectedAccessories={selectedAccessories}
-        pagination={pagination}
-        sortBy={filters.sortBy || 'name'}
-        sortOrder={filters.sortOrder || 'asc'}
-        onSelectAccessory={handleSelectAccessory}
-        onSelectAll={handleSelectAll}
-        onEditAccessory={handleEditAccessory}
-        onDeleteAccessory={handleDeleteAccessory}
-        onSortChange={handleSortChange}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
+    <>
+      <PageBreadcrumb 
+        items={[
+          { label: 'Dashboard', href: '/dashboard' },
+          { label: 'Master Data', href: '/dashboard/master-data' },
+          { label: 'Accessories', isCurrentPage: true },
+        ]} 
       />
+      <Card>
+        <CardHeader>
+          <CardTitle>Accessories</CardTitle>
+          <CardDescription>
+            Manage your accessories inventory with ease.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-1 items-center space-x-2">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search accessories..."
+                  value={filters.searchTerm || ''}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="pl-8 w-[300px]"
+                />
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              {selectedAccessories.length > 0 && (
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleBulkDelete}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete Selected ({selectedAccessories.length})
+                </Button>
+              )}
+              <Button onClick={handleAddAccessory}>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Accessory
+              </Button>
+            </div>
+          </div>
+          <Separator />
+          <AccessoriesTable
+            accessories={accessories}
+            loading={loading}
+            selectedAccessories={selectedAccessories}
+            pagination={pagination}
+            sortBy={filters.sortBy || 'name'}
+            sortOrder={filters.sortOrder || 'asc'}
+            onSelectAccessory={handleSelectAccessory}
+            onSelectAll={handleSelectAll}
+            onEditAccessory={handleEditAccessory}
+            onDeleteAccessory={handleDeleteAccessory}
+            onSortChange={handleSortChange}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        </CardContent>
+      </Card>
 
       {/* Add/Edit Dialog */}
       <Dialog open={isAddEditDialogOpen} onOpenChange={setIsAddEditDialogOpen}>
@@ -274,6 +308,6 @@ export default function AccessoriesPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </MasterDataPageLayout>
+    </>
   );
 }
