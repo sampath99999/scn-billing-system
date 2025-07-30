@@ -1,26 +1,36 @@
-import type { Column } from "@tanstack/react-table";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
-interface SortableHeaderProps<T> {
-    column: Column<T>;
-    header: string;
+interface SortableHeaderProps {
+    label: string;
+    sortField: string;
+    currentSortField: string;
+    currentSortOrder: 'asc' | 'desc';
+    onSort: () => void;
 }
 
-export default function SortableHeader<T>({column, header}: SortableHeaderProps<T>) {
-    const sortDirection = column.getIsSorted();
+export default function SortableHeader({
+    label,
+    sortField,
+    currentSortField,
+    currentSortOrder,
+    onSort
+}: SortableHeaderProps) {
+    const isActive = currentSortField === sortField;
 
     return (
         <div
             className="flex items-center cursor-pointer"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={onSort}
         >
-            {header}
-            {sortDirection === 'asc' ? (
-                <ChevronUp className="ml-2 h-4 w-4" />
-            ) : sortDirection === 'desc' ? (
-                <ChevronDown className="ml-2 h-4 w-4" />
+            {label}
+            {isActive ? (
+                currentSortOrder === 'asc' ? (
+                    <ChevronUp className="ml-2 h-4 w-4" />
+                ) : (
+                    <ChevronDown className="ml-2 h-4 w-4" />
+                )
             ) : (
-                <ChevronsUpDown className="ml-2 h-4 w-4" />
+                <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
             )}
         </div>
     );

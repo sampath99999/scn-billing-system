@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { Plus, Search, Trash2 } from 'lucide-react';
-import PageBreadcrumb from '@/components/common/page-breadcrumb';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import {
   Dialog,
   DialogContent,
@@ -23,6 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { MasterDataPageLayout } from '@/components/common/master-data-page-layout';
 import type { Accessory, GetAccessoriesOptions } from '@/types/Accessory';
 import AccessoryService from '@/services/accessory.service';
 import { AccessoriesTable } from './components/accessories-table';
@@ -184,75 +179,34 @@ export default function AccessoriesPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <PageBreadcrumb items={breadcrumbItems} />
-
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Accessories</h1>
-          <p className="text-muted-foreground">
-            Manage your accessories and their costs.
-          </p>
-        </div>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Accessories</CardTitle>
-              <CardDescription>
-                A list of all accessories in your system.
-              </CardDescription>
-            </div>
-            <div className="flex items-center space-x-2">
-              {selectedAccessories.length > 0 && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleBulkDelete}
-                  className="text-destructive hover:text-destructive"
-                >
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Delete Selected ({selectedAccessories.length})
-                </Button>
-              )}
-              <Button onClick={handleAddAccessory} size="sm">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Accessory
-              </Button>
-            </div>
-          </div>
-          <Separator />
-          <div className="flex items-center space-x-4">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search accessories..."
-                className="pl-10"
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <AccessoriesTable
-            accessories={accessories}
-            loading={loading}
-            selectedAccessories={selectedAccessories}
-            pagination={pagination}
-            sortBy={filters.sortBy || 'name'}
-            sortOrder={filters.sortOrder || 'asc'}
-            onSelectAccessory={handleSelectAccessory}
-            onSelectAll={handleSelectAll}
-            onEditAccessory={handleEditAccessory}
-            onDeleteAccessory={handleDeleteAccessory}
-            onSortChange={handleSortChange}
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-          />
-        </CardContent>
-      </Card>
+    <MasterDataPageLayout
+      title="Accessories"
+      description="Manage your accessories and their costs."
+      breadcrumbItems={breadcrumbItems}
+      selectedCount={selectedAccessories.length}
+      onAdd={handleAddAccessory}
+      onBulkDelete={handleBulkDelete}
+      onSearch={handleSearch}
+      cardTitle="Accessories"
+      cardDescription="A list of all accessories in your system."
+      addButtonText="Add Accessory"
+      searchPlaceholder="Search accessories..."
+    >
+      <AccessoriesTable
+        accessories={accessories}
+        loading={loading}
+        selectedAccessories={selectedAccessories}
+        pagination={pagination}
+        sortBy={filters.sortBy || 'name'}
+        sortOrder={filters.sortOrder || 'asc'}
+        onSelectAccessory={handleSelectAccessory}
+        onSelectAll={handleSelectAll}
+        onEditAccessory={handleEditAccessory}
+        onDeleteAccessory={handleDeleteAccessory}
+        onSortChange={handleSortChange}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
 
       {/* Add/Edit Dialog */}
       <Dialog open={isAddEditDialogOpen} onOpenChange={setIsAddEditDialogOpen}>
@@ -320,6 +274,6 @@ export default function AccessoriesPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </MasterDataPageLayout>
   );
 }
