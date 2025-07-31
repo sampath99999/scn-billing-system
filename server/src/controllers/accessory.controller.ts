@@ -62,4 +62,32 @@ export const AccessoryController = {
             accessory: result,
         });
     }),
+
+    deleteAccessory: catchAsync(async (req: Request, res: Response) => {
+        const accessoryId = (req.params.id as unknown) as mongoose.Types.ObjectId;
+        await AccessoryService.deleteAccessory(
+            accessoryId,
+            (req as RequestWithUserAndBody<NewAccessoryData>).user.company_id,
+        );
+        res.status(204).json({
+            message: 'Accessory deleted successfully',
+        });
+    }),
+
+    deleteMultipleAccessories: catchAsync(async (req: Request, res: Response) => {
+        interface DeleteAccessoriesRequest {
+            accessoryIds: string[];
+        }
+        const { accessoryIds } = (req as RequestWithUserAndBody<DeleteAccessoriesRequest>).body;
+        const objectIds = accessoryIds.map(
+            (id) => new mongoose.Types.ObjectId(id),
+        );
+        await AccessoryService.deleteMultipleAccessories(
+            objectIds,
+            (req as RequestWithUserAndBody<DeleteAccessoriesRequest>).user.company_id,
+        );
+        res.status(204).json({
+            message: 'Accessories deleted successfully',
+        });
+    }),
 };

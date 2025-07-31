@@ -4,6 +4,8 @@ export interface AccessoryInterface extends Document {
     name: string;
     cost: number;
     company_id: Types.ObjectId;
+    is_deleted?: boolean;
+    deleted_at?: Date;
 }
 
 const AccessorySchema = new Schema<AccessoryInterface>(
@@ -20,6 +22,14 @@ const AccessorySchema = new Schema<AccessoryInterface>(
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'companies',
+        },
+        is_deleted: {
+            type: Boolean,
+            default: false,
+        },
+        deleted_at: {
+            type: Date,
+            default: null,
         },
     },
     {

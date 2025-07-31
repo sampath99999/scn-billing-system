@@ -13,6 +13,7 @@ const AccessoryService = {
             name,
             cost,
             company_id: companyId,
+            is_deleted: false,
         });
 
         return newAccessory;
@@ -23,6 +24,7 @@ const AccessoryService = {
             name,
             company_id: companyId,
             _id: { $ne: exceptId },
+            is_deleted: false,
         });
         if (accessoryExists) {
             throw new AppError(
@@ -40,7 +42,7 @@ const AccessoryService = {
         const sortBy = data.body.sortBy ?? 'name';
         const sortOrder = data.body.sortOrder ?? 'asc';
 
-        const query: Record<string, unknown> = { company_id: data.user.company_id };
+        const query: Record<string, unknown> = { company_id: data.user.company_id, is_deleted: false };
 
         if (searchTerm) {
             query.$or = [
@@ -83,6 +85,7 @@ const AccessoryService = {
         const accessoryExists = await Accessory.exists({
             _id: accessoryId,
             company_id: companyId,
+            is_deleted: false,
         });
         if (!accessoryExists) {
             throw new AppError('Accessory not found', 404);
@@ -100,7 +103,31 @@ const AccessoryService = {
             { new: true },
         );
         return updatedAccessory;
-    }
+    },
+
+    deleteAccessory: async (id: mongoose.Types.ObjectId, companyId: mongoose.Types.ObjectId) => {
+        await Accessory.findOneAndUpdate(
+            { _id: id, company_id: companyId },
+            {
+                is_deleted: true,
+                deleted_at: new Date(),
+            }
+        );
+    },
+
+    deleteMultipleAccessories: async (accessoryIds: mongoose.Types.ObjectId[], companyId: mongoose.Types.ObjectId) => {
+        if (!Array.isArray(accessoryIds) || accessoryIds.length === 0) {
+            throw new AppError('No accessory IDs provided', 400);
+        }
+
+        await Accessory.updateMany(
+            { _id: { $in: accessoryIds }, company_id: companyId },
+            {
+                is_deleted: true,
+                deleted_at: new Date(),
+            }
+        );
+    },
 };
 
 export default AccessoryService;

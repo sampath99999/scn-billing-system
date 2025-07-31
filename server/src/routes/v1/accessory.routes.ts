@@ -29,5 +29,17 @@ AccessoryRouter.patch(
     validate(createAccessorySchema),
     AccessoryController.updateAccessory,
 );
+AccessoryRouter.delete(
+    '/:id',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    AccessoryController.deleteAccessory,
+);
+AccessoryRouter.post(
+    '/bulk-delete',
+    AuthMiddleware,
+    IsAdminMiddleware,
+    AccessoryController.deleteMultipleAccessories,
+);
 
 export default AccessoryRouter;

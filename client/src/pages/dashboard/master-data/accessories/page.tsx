@@ -179,14 +179,14 @@ export default function AccessoriesPage() {
 
   return (
     <>
-      <PageBreadcrumb 
+      <PageBreadcrumb
         items={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Master Data', href: '/dashboard/master-data' },
           { label: 'Accessories', isCurrentPage: true },
-        ]} 
+        ]}
       />
-      <Card>
+      <Card className='mt-4'>
         <CardHeader>
           <CardTitle>Accessories</CardTitle>
           <CardDescription>
